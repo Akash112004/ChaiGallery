@@ -1,0 +1,326 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chai Media Gallery</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#0d0d0d;
+color:white;
+}
+
+.glass{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.gallery-img{
+cursor:pointer;
+transition:.3s;
+}
+
+.gallery-img:hover{
+transform:scale(1.05);
+}
+
+#imageModal{
+display:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="sticky top-0 z-50 glass">
+
+<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+<h1 class="text-2xl font-bold text-yellow-500">
+Chai Gallery
+</h1>
+
+<ul class="hidden md:flex gap-8">
+
+<li><a href="#home" class="hover:text-yellow-500">Home</a></li>
+<li><a href="#gallery" class="hover:text-yellow-500">Gallery</a></li>
+<li><a href="#about" class="hover:text-yellow-500">About</a></li>
+<li><a href="#contact" class="hover:text-yellow-500">Contact</a></li>
+
+</ul>
+
+<button id="menuBtn" class="md:hidden text-2xl">
+☰
+</button>
+
+</div>
+
+<div id="mobileMenu" class="hidden md:hidden px-6 pb-4">
+
+<a href="#home" class="block py-2">Home</a>
+<a href="#gallery" class="block py-2">Gallery</a>
+<a href="#about" class="block py-2">About</a>
+<a href="#contact" class="block py-2">Contact</a>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section id="home" class="text-center py-24 px-6">
+
+<h1 class="text-5xl md:text-7xl font-bold mb-6">
+Chai Media Gallery
+</h1>
+
+<p class="text-gray-400 max-w-2xl mx-auto">
+A beautiful image gallery showcasing stunning photography and creative visuals.
+</p>
+
+<a href="#gallery"
+class="inline-block mt-8 bg-yellow-500 text-black px-8 py-3 rounded-lg font-semibold hover:bg-yellow-400">
+Explore Gallery
+</a>
+
+</section>
+
+<!-- GALLERY -->
+
+<section id="gallery" class="max-w-7xl mx-auto px-6 py-16">
+
+<h2 class="text-3xl font-bold mb-10">
+Featured Images
+</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<!-- CARD 1 -->
+
+<div class="glass rounded-xl overflow-hidden">
+
+<img
+src="https://picsum.photos/500/600?1"
+data-title="Mountain Sunset"
+data-description="A beautiful sunset view captured from the mountains."
+class="gallery-img w-full h-72 object-cover">
+
+<div class="p-4">
+
+<h3 class="text-xl font-bold">
+Mountain Sunset
+</h3>
+
+<p class="text-gray-400 mt-2">
+A beautiful sunset view captured from the mountains.
+</p>
+
+</div>
+
+</div>
+
+<!-- CARD 2 -->
+
+<div class="glass rounded-xl overflow-hidden">
+
+<img
+src="https://picsum.photos/500/600?2"
+data-title="Modern Workspace"
+data-description="Minimalist coding setup with modern design."
+class="gallery-img w-full h-72 object-cover">
+
+<div class="p-4">
+
+<h3 class="text-xl font-bold">
+Modern Workspace
+</h3>
+
+<p class="text-gray-400 mt-2">
+Minimalist coding setup with modern design.
+</p>
+
+</div>
+
+</div>
+
+<!-- CARD 3 -->
+
+<div class="glass rounded-xl overflow-hidden">
+
+<img
+src="https://picsum.photos/500/600?3"
+data-title="Nature View"
+data-description="Beautiful greenery and peaceful landscape."
+class="gallery-img w-full h-72 object-cover">
+
+<div class="p-4">
+
+<h3 class="text-xl font-bold">
+Nature View
+</h3>
+
+<p class="text-gray-400 mt-2">
+Beautiful greenery and peaceful landscape.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section id="about" class="max-w-5xl mx-auto px-6 py-20">
+
+<h2 class="text-3xl font-bold mb-6">
+About
+</h2>
+
+<p class="text-gray-400 leading-8">
+Chai Media Gallery is a modern responsive gallery project built using
+HTML, Tailwind CSS and JavaScript. Users can browse images and view
+details in a popup modal.
+</p>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact" class="max-w-5xl mx-auto px-6 py-20">
+
+<h2 class="text-3xl font-bold mb-6">
+Contact
+</h2>
+
+<form class="space-y-4">
+
+<input
+type="text"
+placeholder="Your Name"
+class="w-full p-3 bg-gray-900 rounded-lg">
+
+<input
+type="email"
+placeholder="Email Address"
+class="w-full p-3 bg-gray-900 rounded-lg">
+
+<textarea
+rows="5"
+placeholder="Message"
+class="w-full p-3 bg-gray-900 rounded-lg"></textarea>
+
+<button
+class="bg-yellow-500 text-black px-8 py-3 rounded-lg font-semibold">
+Send Message
+</button>
+
+</form>
+
+</section>
+
+<!-- MODAL -->
+
+<div id="imageModal"
+class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-4">
+
+<div class="max-w-4xl w-full text-center">
+
+<button
+id="closeModal"
+class="text-white text-4xl float-right mb-4">
+×
+</button>
+
+<img
+id="modalImage"
+class="max-h-[70vh] mx-auto rounded-xl">
+
+<h2
+id="modalTitle"
+class="text-3xl font-bold mt-6">
+</h2>
+
+<p
+id="modalDescription"
+class="text-gray-300 mt-3">
+</p>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="border-t border-gray-800 py-8 text-center text-gray-500">
+© 2026 Chai Media Gallery
+</footer>
+
+<script>
+
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click",()=>{
+
+mobileMenu.classList.toggle("hidden");
+
+});
+
+const modal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const closeModal = document.getElementById("closeModal");
+
+document.querySelectorAll(".gallery-img").forEach(img=>{
+
+img.addEventListener("click",()=>{
+
+modal.classList.remove("hidden");
+modal.classList.add("flex");
+
+modalImage.src = img.src;
+modalTitle.innerText = img.dataset.title;
+modalDescription.innerText = img.dataset.description;
+
+});
+
+});
+
+closeModal.addEventListener("click",()=>{
+
+modal.classList.add("hidden");
+modal.classList.remove("flex");
+
+});
+
+modal.addEventListener("click",(e)=>{
+
+if(e.target===modal){
+
+modal.classList.add("hidden");
+modal.classList.remove("flex");
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
+```
