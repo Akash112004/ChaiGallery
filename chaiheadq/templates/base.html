@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}ChaiGallery{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        chai: {
+                            50: '#fdf8f3',
+                            100: '#f7ede3',
+                            200: '#ecd5bc',
+                            300: '#ddb38a',
+                            400: '#cc8d58',
+                            500: '#b86d35',
+                            600: '#995528',
+                            700: '#7a431f',
+                            800: '#64371d',
+                            900: '#532f1b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-amber-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-amber-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center gap-2">
+                    <span class="text-2xl">☕</span>
+                    <span class="text-xl font-bold text-chai-700 dark:text-chai-300">
+                        ChaiGallery
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="{% url 'home' %}" class="hover:text-chai-600 transition">Home</a>
+                    <a href="{% url 'gallery' %}" class="hover:text-chai-600 transition">Gallery</a>
+                    <a href="{% url 'categories' %}" class="hover:text-chai-600 transition">Categories</a>
+                    <a href="{% url 'upload' %}" class="hover:text-chai-600 transition">Upload</a>
+                    <a href="{% url 'about' %}" class="hover:text-chai-600 transition">About</a>
+                    <a href="{% url 'contact' %}" class="hover:text-chai-600 transition">Contact</a>
+                </nav>
+
+                <!-- Right Side -->
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle"
+                            class="p-2 rounded-lg bg-amber-100 dark:bg-gray-800 hover:scale-105 transition">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}"
+                           class="hidden md:inline-flex items-center px-4 py-2 rounded-xl bg-chai-600 text-white hover:bg-chai-700 transition">
+                            {{ user.username }}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}"
+                           class="hidden md:inline-flex items-center px-4 py-2 rounded-xl bg-chai-600 text-white hover:bg-chai-700 transition">
+                            Login
+                        </a>
+                    {% endif %}
+
+                    <!-- Mobile Menu Button -->
+                    <button id="menu-btn"
+                            class="md:hidden p-2 rounded-lg bg-amber-100 dark:bg-gray-800">
+                        ☰
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-amber-100 dark:border-gray-800">
+                <div class="flex flex-col gap-3">
+                    <a href="{% url 'home' %}" class="py-2">Home</a>
+                    <a href="{% url 'gallery' %}" class="py-2">Gallery</a>
+                    <a href="{% url 'categories' %}" class="py-2">Categories</a>
+                    <a href="{% url 'upload' %}" class="py-2">Upload</a>
+                    <a href="{% url 'about' %}" class="py-2">About</a>
+                    <a href="{% url 'contact' %}" class="py-2">Contact</a>
+
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="py-2 font-semibold text-chai-700 dark:text-chai-300">
+                            {{ user.username }}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="py-2 font-semibold text-chai-700 dark:text-chai-300">
+                            Login
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="min-h-screen">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-amber-100 dark:border-gray-800 bg-white dark:bg-gray-900 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <div>
+                    <h3 class="text-lg font-bold text-chai-700 dark:text-chai-300 mb-3">
+                        ChaiGallery
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Discover tea traditions, beautiful chai photography,
+                        and share your favorite cup with the community.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3">Explore</h4>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li><a href="{% url 'gallery' %}" class="hover:text-chai-600 transition">Gallery</a></li>
+                        <li><a href="{% url 'categories' %}" class="hover:text-chai-600 transition">Categories</a></li>
+                        <li><a href="{% url 'upload' %}" class="hover:text-chai-600 transition">Upload</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3">Stay Connected</h4>
+                    <div class="flex gap-3 text-xl">
+                        <a href="https://instagram.com" target="_blank" class="hover:scale-110 transition">📷</a>
+                        <a href="https://x.com" target="_blank" class="hover:scale-110 transition">🐦</a>
+                        <a href="https://youtube.com" target="_blank" class="hover:scale-110 transition">▶️</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-10 pt-6 border-t border-amber-100 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
+                © {% now "Y" %} ChaiGallery. Crafted with Django and Tailwind CSS.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Dark Mode
+        const toggle = document.getElementById('theme-toggle');
+        const icon = document.getElementById('theme-icon');
+
+        const applyTheme = (dark) => {
+            document.documentElement.classList.toggle('dark', dark);
+            icon.textContent = dark ? '☀️' : '🌙';
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        };
+
+        applyTheme(localStorage.getItem('theme') === 'dark');
+
+        toggle.addEventListener('click', () => {
+            applyTheme(!document.documentElement.classList.contains('dark'));
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
