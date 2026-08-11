@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories | ChaiGallery{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(185,109,53,0.08),transparent_35%),radial-gradient(circle_at_top_right,rgba(246,205,157,0.18),transparent_25%)]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        <div class="max-w-3xl">
+            <span class="inline-flex items-center rounded-full bg-chai-100 text-chai-700 px-4 py-2 text-sm font-medium">Tea categories</span>
+            <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">Group your teas by style and flavor</h1>
+            <p class="mt-5 text-lg text-gray-600 dark:text-gray-400 max-w-2xl">This page now builds category blocks from the teas in your database instead of rendering the homepage.</p>
+        </div>
+
+        <div class="mt-10 grid gap-4 sm:grid-cols-3">
+            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Categories</p>
+                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">4</p>
+            </div>
+            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Teas scanned</p>
+                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ total_teas }}</p>
+            </div>
+            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Matching entries</p>
+                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ total_teas }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2">
+            {% for category in category_cards %}
+                <article class="rounded-3xl bg-white dark:bg-gray-900 shadow-lg border border-amber-100 dark:border-gray-800 p-6">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ category.name }}</h2>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ category.description }}</p>
+                        </div>
+                        <span class="shrink-0 rounded-full bg-chai-100 text-chai-700 px-3 py-1 text-sm font-semibold">{{ category.count }}</span>
+                    </div>
+
+                    <div class="mt-6">
+                        {% if category.teas %}
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                {% for tea in category.teas %}
+                                    <div class="overflow-hidden rounded-2xl border border-amber-100 dark:border-gray-800 bg-amber-50 dark:bg-gray-950">
+                                        <img src="{{ tea.image.url }}" alt="{{ tea.name }}" class="h-40 w-full object-cover">
+                                        <div class="p-4">
+                                            <h3 class="font-semibold text-gray-900 dark:text-white">{{ tea.name }}</h3>
+                                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ tea.description|default:'No description provided.' }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="rounded-2xl border border-dashed border-amber-300 bg-amber-50 dark:bg-gray-950 p-6 text-sm text-gray-600 dark:text-gray-400">
+                                No teas match this category yet. Upload one with matching words in the name or description.
+                            </div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -88,57 +88,27 @@
             </a>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <div class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
-                <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=800&q=80"
-                     class="h-48 w-full object-cover group-hover:scale-105 transition duration-300"
-                     alt="Masala Chai">
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg">Masala Chai</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Rich spices and authentic Indian flavors.
-                    </p>
-                </div>
+        {% if teas %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for tea in teas %}
+                    <div class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
+                        <img src="{{ tea.image.url }}"
+                             class="h-48 w-full object-cover group-hover:scale-105 transition duration-300"
+                             alt="{{ tea.name }}">
+                        <div class="p-5">
+                            <h3 class="font-semibold text-lg">{{ tea.name }}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                {{ tea.description|default:'No description provided.' }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-
-            <div class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
-                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80"
-                     class="h-48 w-full object-cover group-hover:scale-105 transition duration-300"
-                     alt="Green Tea">
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg">Green Tea</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Fresh, light, and antioxidant-rich brews.
-                    </p>
-                </div>
+        {% else %}
+            <div class="rounded-3xl border border-dashed border-amber-300 bg-amber-50 dark:bg-gray-900 dark:border-gray-700 p-10 text-center text-gray-600 dark:text-gray-400">
+                No teas have been uploaded yet. Visit Upload and add your first tea.
             </div>
-
-            <div class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
-                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
-                     class="h-48 w-full object-cover group-hover:scale-105 transition duration-300"
-                     alt="Herbal Tea">
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg">Herbal Tea</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Naturally calming and refreshing infusions.
-                    </p>
-                </div>
-            </div>
-
-            <div class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
-                <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=800&q=80"
-                     class="h-48 w-full object-cover group-hover:scale-105 transition duration-300"
-                     alt="Kashmiri Kahwa">
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg">Kashmiri Kahwa</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        Saffron, almonds, and aromatic warmth.
-                    </p>
-                </div>
-            </div>
-
-        </div>
+        {% endif %}
     </div>
 </section>
 
