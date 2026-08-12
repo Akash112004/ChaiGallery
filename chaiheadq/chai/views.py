@@ -52,6 +52,11 @@ def index(request):
     teas = Tea.objects.all()[:4]
     return render(request, 'index.html', {'teas': teas})
 
+def home(request):
+    """Backward-compatible ChaiGallery landing view."""
+    teas = Tea.objects.all()[:4]
+    return render(request, 'index.html', {'teas': teas})
+
 def gallery(request):
     teas = Tea.objects.all()
     context = {

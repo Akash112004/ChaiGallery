@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Akash Solanki | BCA Student & Django Developer{% endblock %}
+
+{% block content %}
+<section class="section-shell hero-shell">
+    <canvas id="particles"></canvas>
+
+    <div class="section-inner hero-grid">
+        <div class="reveal">
+            <p class="section-eyebrow">Available for opportunities</p>
+            <h1 class="hero-heading">
+                Hi, I’m <strong>Akash Solanki</strong>.<br>
+                BCA Student &  Devops 
+            </h1>
+            <p class="hero-sub">
+                I build clean, responsive web applications with Django, Python, Linux, PostgreSQL, Tailwind CSS,
+                and a growing DevOps toolkit.
+            </p>
+            <p class="hero-type">
+                Focused on <span id="typewriter"></span><span id="cursor"></span>
+            </p>
+
+            <div class="project-actions">
+                <a href="#projects" class="btn btn-gold">View Projects</a>
+                <a href="{% url 'gallery' %}" class="btn btn-outline">Open ChaiGallery</a>
+                <a href="#contact" class="btn btn-ghost">Contact Me</a>
+            </div>
+
+            <div class="scroll-hint">
+                <span class="scroll-hint-line"></span>
+                <span>scroll</span>
+            </div>
+        </div>
+
+        <aside class="hero-panel reveal">
+            <div class="info-card" style="margin-bottom: 1rem;">
+                <p class="mini-label">Education</p>
+                <h2 class="section-heading" style="font-size: 1.4rem; margin-top: 0.45rem;">Silver Oak University</h2>
+                <p class="card-copy" style="margin-top: 0.45rem;">Bachelor of Computer Applications · 2023–2026</p>
+                <p class="card-copy">CGPA: <strong style="color: var(--text);">8.52</strong></p>
+            </div>
+
+            <div class="hero-metrics">
+                <div class="metric">
+                    <div class="metric-value">Django</div>
+                    <div class="metric-label">Primary backend stack</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">Linux</div>
+                    <div class="metric-label">Daily tooling focus</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">PostgreSQL</div>
+                    <div class="metric-label">Database interest</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">DevOps</div>
+                    <div class="metric-label">Currently learning</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section id="about" class="section-pad section-shell">
+    <div class="section-inner">
+        <p class="section-eyebrow reveal">About me</p>
+        <div class="reveal">
+            <h2 class="section-heading">I like building systems that feel simple on the surface and solid underneath.</h2>
+            <p class="section-sub">
+                I am an Ahmedabad-based BCA student who enjoys turning ideas into reliable Django applications.
+                My current focus is on backend engineering, clean UI implementation, and learning the deployment and
+                infrastructure side of modern web apps.
+            </p>
+        </div>
+
+        <div class="contact-grid" style="margin-top: 2rem;">
+            <div class="info-card reveal">
+                <p class="mini-label">Location</p>
+                <h3 class="project-title" style="font-size: 1.35rem; margin-top: 0.45rem;">Ahmedabad, Gujarat, India</h3>
+                <p class="card-copy" style="margin-top: 0.65rem;">Available to work on Django, Python, and backend-focused internships or entry-level roles.</p>
+            </div>
+            <div class="info-card reveal">
+                <p class="mini-label">Learning path</p>
+                <h3 class="project-title" style="font-size: 1.35rem; margin-top: 0.45rem;">Django, PostgreSQL, Linux, RHCSA, DevOps</h3>
+                <p class="card-copy" style="margin-top: 0.65rem;">I am building depth in backend development and the supporting tools that keep production systems maintainable.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="section-pad section-shell">
+    <div class="section-inner">
+        <p class="section-eyebrow reveal">Skills</p>
+        <h2 class="section-heading reveal">Technical focus</h2>
+        <p class="section-sub reveal">My stack is centered on Django and the tools around it.</p>
+
+        <div class="skill-grid stagger" style="margin-top: 2rem;">
+            {% for group in skills_groups %}
+                <article class="skill-card">
+                    <div class="cat-label" style="display: flex; align-items: center; gap: 0.85rem;">
+                        <div class="contact-link-icon">{{ group.icon }}</div>
+                        <h3 class="project-title" style="font-size: 1.15rem; margin: 0;">{{ group.title }}</h3>
+                    </div>
+                    <div class="skill-list">
+                        {% for skill in group.skills %}
+                            <span class="skill-pill">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section-pad section-shell">
+    <div class="section-inner">
+        <p class="section-eyebrow reveal">Projects</p>
+        <h2 class="section-heading reveal">Featured work</h2>
+        <p class="section-sub reveal">ChaiGallery is the primary project I want recruiters to open first.</p>
+
+        <div class="project-grid" style="margin-top: 2rem;">
+            <article class="project-card reveal">
+                <p class="project-meta">01</p>
+                <h3 class="project-title">{{ featured_project.title }}</h3>
+                <p class="project-type">{{ featured_project.type }}</p>
+                <p class="project-desc" style="margin-top: 1rem;">{{ featured_project.description }}</p>
+
+                <div class="tech-tags">
+                    {% for item in featured_project.tech_stack %}
+                        <span>{{ item }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="project-actions">
+                    <a href="{% url 'gallery' %}" class="btn btn-gold">Open ChaiGallery</a>
+                    <a href="{{ featured_project.github }}" target="_blank" rel="noreferrer" class="btn btn-outline">GitHub</a>
+                </div>
+            </article>
+
+            <article class="project-card reveal" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <p class="project-meta">02</p>
+                    <h3 class="project-title">Portfolio Website</h3>
+                    <p class="project-type">Django Template Conversion</p>
+                    <p class="project-desc" style="margin-top: 1rem;">
+                        My original HTML, CSS, and JavaScript portfolio converted into Django templates with shared layout,
+                        clean URLs, and consistent navigation into the main ChaiGallery app.
+                    </p>
+                </div>
+
+                <div class="tech-tags">
+                    <span>Django Templates</span>
+                    <span>Tailwind</span>
+                    <span>Responsive UI</span>
+                    <span>Scroll Reveal</span>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section-pad section-shell">
+    <div class="section-inner">
+        <p class="section-eyebrow reveal">Contact</p>
+        <h2 class="section-heading reveal">Let’s build something useful</h2>
+        <p class="section-sub reveal">If you are hiring for Django, Python, or backend web development, here is the fastest way to reach me.</p>
+
+        <div class="contact-grid" style="margin-top: 2rem;">
+            <div class="contact-card reveal">
+                <p class="project-meta">Direct links</p>
+                <div class="contact-list">
+                    {% for contact in contact_links %}
+                        <a href="{{ contact.href }}" class="contact-link" {% if 'http' in contact.href %}target="_blank" rel="noreferrer"{% endif %}>
+                            <span class="contact-link-icon">{{ contact.icon }}</span>
+                            <span>
+                                <strong style="display: block; color: var(--text); font-weight: 500;">{{ contact.label }}</strong>
+                                <span style="color: var(--text-muted);">{{ contact.value }}</span>
+                            </span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="info-card reveal">
+                <p class="project-meta">Profile summary</p>
+                <h3 class="project-title" style="font-size: 1.5rem; margin-top: 0.5rem;">Django-focused, detail-oriented, and actively learning deployment.</h3>
+                <p class="contact-copy" style="margin-top: 0.85rem;">
+                    I care about clarity in interfaces, maintainability in code, and practical shipping.
+                    The aim is to build products that look good, work reliably, and are easy to extend.
+                </p>
+
+                <div class="contact-actions">
+                    <a href="mailto:solankiakash7016@gmail.com" class="btn btn-gold">Email Me</a>
+                    <a href="https://www.linkedin.com/in/akash-solanki-21518a282/" target="_blank" rel="noreferrer" class="btn btn-outline">LinkedIn</a>
+                    <a href="https://github.com/Akash112004" target="_blank" rel="noreferrer" class="btn btn-ghost">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
