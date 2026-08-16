@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     ".vercel.app",
     "127.0.0.1",
     "localhost",
-    "4f64-2402-3a80-4664-73e7-64df-d2cb-74d2-312c.ngrok-free.app",
+    # "4f64-2402-3a80-4664-73e7-64df-d2cb-74d2-312c.ngrok-free.app",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
