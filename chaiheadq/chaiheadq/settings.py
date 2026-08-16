@@ -27,10 +27,13 @@ SECRET_KEY = 'django-insecure-(15yw8!x-&bxjk(#bgmb!-9)8=pgr#4$50gf$-6c0)x9q5f5ei
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "chai-gallery11.vercel.app",
+    ".vercel.app",
     "127.0.0.1",
     "localhost",
     "4f64-2402-3a80-4664-73e7-64df-d2cb-74d2-312c.ngrok-free.app",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
 ]
 
 
@@ -106,9 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-CSRF_TRUSTED_ORIGINS = [
-    "https://chai-gallery11.vercel.app",
-]
+
 
 
 # Internationalization
