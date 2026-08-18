@@ -1,67 +1,193 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Gallery | ChaiGallery{% endblock %}
+{% block title %}ChaiGallery | Discover the World of Chai{% endblock %}
 
 {% block content %}
-<section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(185,109,53,0.14),_transparent_34%),radial-gradient(circle_at_top_right,_rgba(246,205,157,0.18),_transparent_28%)]"></div>
 
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div class="max-w-3xl">
-            <span class="inline-flex items-center rounded-full bg-chai-100 text-chai-700 px-4 py-2 text-sm font-medium">Browse the tea gallery</span>
-            <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">A living collection of teas from the community</h1>
-            <p class="mt-5 text-lg text-gray-600 dark:text-gray-400 max-w-2xl">Every tea you upload shows up here. This page now reads from the Tea model, so it is no longer a static placeholder.</p>
-        </div>
+<!-- Hero Section -->
 
-        <div class="mt-10 grid gap-4 sm:grid-cols-3">
-            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Total teas</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ total_teas }}</p>
+<section
+    class="relative overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div class="max-w-7xl mx-auto px-6 py-20 lg:py-28">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="hero-image-wrapper">
+                <div class="hero-image-card">
+                    <img src="{% static 'images/chai-hero.jpg' %}" alt="A beautiful cup of chai" class="hero-image">
+                </div>
             </div>
-            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Visible teas</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ teas|length }}</p>
+
+            <!-- Left Content -->
+            <div>
+                <span
+                    class="inline-flex items-center px-4 py-2 rounded-full bg-amber-100 text-chai-700 text-sm font-semibold">
+                    Discover handcrafted tea stories
+                </span>
+
+                <h1 class="mt-6 text-5xl lg:text-7xl font-bold leading-tight text-gray-900 dark:text-white">
+                    Welcome to
+                    <span class="text-chai-600">ChaiGallery</span>
+                </h1>
+
+                <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-xl">
+                    A modern gallery where tea lovers share beautiful chai photos,
+                    unique flavors, and memorable brewing experiences from around the world.
+                </p>
+
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="{% url 'gallery' %}"
+                        class="px-6 py-3 rounded-2xl bg-chai-600 text-white font-semibold hover:bg-chai-700 transition">
+                        Explore Gallery
+                    </a>
+
+                    <a href="{% url 'upload' %}"
+                        class="px-6 py-3 rounded-2xl border border-chai-300 text-chai-700 dark:text-chai-300 hover:bg-amber-100 dark:hover:bg-gray-800 transition">
+                        Upload Your Tea
+                    </a>
+                </div>
+
+                <div class="mt-10 grid grid-cols-3 gap-6">
+                    <div>
+                        <p class="text-3xl font-bold text-chai-700 dark:text-chai-300">{{ teas|length }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Featured Teas</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-chai-700 dark:text-chai-300">100%</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Community Driven</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-chai-700 dark:text-chai-300">∞</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Tea Stories</p>
+                    </div>
+                </div>
             </div>
-            <div class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Latest uploads</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ teas|length }}</p>
+
+            <!-- Right Image -->
+            <div class="relative">
+                <div class="rounded-3xl overflow-hidden shadow-2xl border border-amber-200 dark:border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=80"
+                        alt="Cup of chai tea" class="w-full h-[560px] object-cover">
+                </div>
+
+                <div
+                    class="absolute -bottom-6 -left-6 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-5 border border-amber-100 dark:border-gray-800">
+                    <p class="font-semibold text-gray-900 dark:text-white">Today's Favorite</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">A warm cup shared by the community</p>
+                </div>
             </div>
+
         </div>
     </div>
+    ```
+
 </section>
 
-<section class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between gap-6 mb-8">
+<!-- Featured Uploads -->
+
+<section class="py-20 bg-amber-50/40 dark:bg-gray-950">
+    <div class="max-w-7xl mx-auto px-6">
+
+        ```
+        <div class="flex items-center justify-between mb-10">
             <div>
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">All teas</h2>
-                <p class="mt-2 text-gray-600 dark:text-gray-400">This grid is powered directly by Tea.objects.all().</p>
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">Latest Tea Uploads</h2>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Fresh uploads from the ChaiGallery community.</p>
             </div>
-            <a href="{% url 'upload' %}" class="inline-flex items-center px-5 py-3 rounded-2xl bg-chai-600 text-white font-semibold hover:bg-chai-700 transition">Upload tea</a>
+
+            <a href="{% url 'gallery' %}" class="text-chai-600 font-semibold hover:text-chai-700 transition">
+                View Gallery →
+            </a>
         </div>
 
         {% if teas %}
-            <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {% for tea in teas %}
-                    <article class="overflow-hidden rounded-3xl bg-white dark:bg-gray-900 shadow-lg border border-amber-100 dark:border-gray-800">
-                        <img src="{{ tea.image.url }}" alt="{{ tea.name }}" class="h-64 w-full object-cover">
-                        <div class="p-5">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ tea.name }}</h3>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ tea.description|default:'No description provided.' }}</p>
-                                </div>
-                                <a href="{% url 'edit_tea' tea.id %}" class="inline-flex items-center px-4 py-2 rounded-xl bg-amber-100 text-chai-800 hover:bg-amber-200 transition">Edit</a>
-                            </div>
-                        </div>
-                    </article>
-                {% endfor %}
-            </div>
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+            {% for tea in teas %}
+            <article
+                class="group rounded-3xl overflow-hidden bg-white dark:bg-gray-900 border border-amber-100 dark:border-gray-800 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-1">
+
+                <div class="aspect-[4/5] overflow-hidden">
+                    <img src="{{ tea.image.url }}" alt="{{ tea.name }}"
+                        class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 rounded-full bg-amber-100 text-chai-700 text-xs font-semibold">
+                            Community
+                        </span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">New</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                        {{ tea.name }}
+                    </h3>
+
+                    <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                        {{ tea.description|default:"A beautiful tea shared by a member of the ChaiGallery community." }}
+                    </p>
+
+                    <div class="mt-5 flex items-center justify-between">
+                        <a href="{% url 'gallery' %}"
+                            class="text-chai-600 font-semibold hover:text-chai-700 transition">
+                            View →
+                        </a>
+
+                        <a href="{% url 'edit_tea' tea.id %}"
+                            class="px-4 py-2 rounded-xl bg-amber-100 text-chai-800 hover:bg-amber-200 transition">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+            {% endfor %}
+
+        </div>
+
         {% else %}
-            <div class="rounded-3xl border border-dashed border-amber-300 bg-amber-50 dark:bg-gray-900 dark:border-gray-700 p-10 text-center text-gray-600 dark:text-gray-400">
-                There are no tea entries yet.
-            </div>
+
+        <div
+            class="rounded-3xl border border-dashed border-amber-300 bg-white dark:bg-gray-900 dark:border-gray-700 p-12 text-center">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">No teas uploaded yet</h3>
+            <p class="mt-3 text-gray-600 dark:text-gray-400">
+                Be the first to share your favorite chai with the community.
+            </p>
+
+            <a href="{% url 'upload' %}"
+                class="mt-6 inline-flex px-6 py-3 rounded-2xl bg-chai-600 text-white font-semibold hover:bg-chai-700 transition">
+                Upload Your First Tea
+            </a>
+        </div>
+
         {% endif %}
+
     </div>
+    ```
+
 </section>
+
+<!-- Call to Action -->
+
+<section class="pb-24 bg-amber-50/40 dark:bg-gray-950">
+    <div class="max-w-7xl mx-auto px-6">
+        <div
+            class="rounded-3xl bg-gradient-to-r from-chai-600 via-chai-700 to-amber-700 text-white p-10 lg:p-16 text-center shadow-2xl">
+            <h2 class="text-4xl font-bold">Share Your Favorite Cup</h2>
+
+            ```
+            <p class="mt-4 text-lg text-amber-100 max-w-2xl mx-auto">
+                Upload beautiful tea photos, discover new flavors, and become part of the ChaiGallery community.
+            </p>
+
+            <a href="{% url 'upload' %}"
+                class="mt-8 inline-flex px-6 py-3 rounded-2xl bg-white text-chai-700 font-semibold hover:bg-amber-50 transition">
+                Upload a Tea
+            </a>
+        </div>
+    </div>
+    ```
+
+</section>
+
 {% endblock %}

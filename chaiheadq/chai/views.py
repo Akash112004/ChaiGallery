@@ -111,7 +111,7 @@ def upload_tea(request):
 
 
 def edit_tea(request, tea_id):
-    tea = get_object_or_404(Tea, id=tea_id)
+    tea = get_object_or_404(Tea, id=tea_id, )
 
     if request.method == 'POST':
         form = TeaForm(request.POST, request.FILES, instance=tea)
