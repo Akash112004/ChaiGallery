@@ -142,4 +142,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR.parent / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
