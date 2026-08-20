@@ -144,3 +144,6 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# admin panel password 
+# userNmae = asus
+# password = chai@123
