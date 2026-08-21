@@ -1,22 +1,49 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Akash Solanki | Portfolio{% endblock %}</title>
-    <meta name="description" content="Akash Solanki's portfolio and ChaiGallery Django application.">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            Akash Solanki | Portfolio
+        {% endblock %}
+    </title>
+
+    <meta
+        name="description"
+        content="Akash Solanki's portfolio and ChaiGallery Django application."
+    >
+
+
+    <!-- =====================================================
+         TAILWIND
+    ====================================================== -->
 
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
+
         tailwind.config = {
+
             darkMode: 'class',
+
             theme: {
+
                 extend: {
+
                     colors: {
+
                         chai: {
+
                             50: '#fdf8f3',
                             100: '#f7ede3',
                             200: '#ecd5bc',
@@ -27,578 +54,1276 @@
                             700: '#7a431f',
                             800: '#64371d',
                             900: '#532f1b'
+
                         }
+
                     }
+
                 }
+
             }
-        }
+
+        };
+
     </script>
 
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         MAIN CSS
+    ====================================================== -->
 
     <style>
+
         :root {
+
             --bg: #0d0d0d;
             --bg-raised: #141414;
             --bg-card: #181818;
+
             --border: rgba(255, 255, 255, 0.07);
             --border-hover: rgba(255, 255, 255, 0.18);
+
             --gold: #c9a96e;
             --gold-dim: rgba(201, 169, 110, 0.12);
             --gold-glow: rgba(201, 169, 110, 0.25);
+
             --text: #e8e6e1;
             --text-muted: #9c9790;
             --text-soft: #6b6760;
+
             --radius: 12px;
+
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
+
 
         *,
         *::before,
         *::after {
+
             box-sizing: border-box;
+
         }
+
 
         html {
+
             scroll-behavior: smooth;
             font-size: 16px;
+
         }
+
 
         body {
+
             margin: 0;
+
             background: var(--bg);
             color: var(--text);
+
             font-family: 'DM Sans', sans-serif;
+
             font-weight: 300;
             line-height: 1.7;
+
             overflow-x: hidden;
+
             -webkit-font-smoothing: antialiased;
+
         }
+
 
         ::selection {
+
             background: var(--gold-glow);
+
         }
+
+
+        /* =================================================
+           REVEAL ANIMATIONS
+        ================================================== */
 
         .reveal {
+
             opacity: 0;
+
             transform: translateY(28px);
-            transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+
+            transition:
+                opacity 0.75s var(--ease),
+                transform 0.75s var(--ease);
+
             will-change: opacity, transform;
+
         }
+
 
         .reveal.visible {
+
             opacity: 1;
+
             transform: none;
+
         }
 
-        .stagger>* {
+
+        .stagger > * {
+
             opacity: 0;
+
             transform: translateY(22px);
-            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+
+            transition:
+                opacity 0.6s var(--ease),
+                transform 0.6s var(--ease);
+
             will-change: opacity, transform;
+
         }
 
-        .stagger.visible>*:nth-child(1) {
+
+        .stagger.visible > *:nth-child(1) {
+
             transition-delay: 0.05s;
+
         }
 
-        .stagger.visible>*:nth-child(2) {
+
+        .stagger.visible > *:nth-child(2) {
+
             transition-delay: 0.15s;
+
         }
 
-        .stagger.visible>*:nth-child(3) {
+
+        .stagger.visible > *:nth-child(3) {
+
             transition-delay: 0.25s;
+
         }
 
-        .stagger.visible>*:nth-child(4) {
+
+        .stagger.visible > *:nth-child(4) {
+
             transition-delay: 0.35s;
+
         }
 
-        .stagger.visible>* {
+
+        .stagger.visible > * {
+
             opacity: 1;
+
             transform: none;
+
         }
+
+
+        /* =================================================
+           HEADER
+        ================================================== */
 
         header {
+
             position: sticky;
+
             top: 0;
+
             z-index: 100;
+
         }
+
 
         .shell-nav {
+
             max-width: 1180px;
+
             margin: 0 auto;
+
             padding: 0 1.25rem;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             min-height: 72px;
+
             border-bottom: 1px solid var(--border);
+
             background: rgba(13, 13, 13, 0.82);
+
             backdrop-filter: blur(18px);
+
             -webkit-backdrop-filter: blur(18px);
+
         }
+
+
+        /* =================================================
+           LOGO
+        ================================================== */
 
         .nav-logo {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 0.75rem;
+
             text-decoration: none;
+
             color: var(--text);
+
             font-family: 'DM Mono', monospace;
+
             letter-spacing: 0.08em;
+
             font-size: 0.88rem;
+
             text-transform: uppercase;
+
+            flex-shrink: 0;
+
         }
+
 
         .nav-mark {
+
             width: 34px;
+
             height: 34px;
+
             border-radius: 10px;
+
             display: grid;
+
             place-items: center;
-            background: linear-gradient(135deg, rgba(201, 169, 110, 0.2), rgba(201, 169, 110, 0.05));
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(201, 169, 110, 0.2),
+                    rgba(201, 169, 110, 0.05)
+                );
+
             border: 1px solid var(--border);
+
             color: var(--gold);
+
         }
+
+
+        /* =================================================
+           DESKTOP NAVIGATION
+        ================================================== */
 
         .nav-links {
+
             display: flex;
+
             align-items: center;
+
             gap: 1.75rem;
+
             list-style: none;
+
             margin: 0;
+
             padding: 0;
+
         }
+
 
         .nav-links a {
+
             text-decoration: none;
+
             color: var(--text-muted);
+
             font-size: 0.88rem;
+
             transition: color 0.25s var(--ease);
+
             position: relative;
+
         }
 
+
         .nav-links a::after {
+
             content: '';
+
             position: absolute;
+
             left: 0;
+
             bottom: -4px;
+
             width: 0;
+
             height: 1px;
+
             background: var(--gold);
+
             transition: width 0.25s var(--ease);
+
         }
+
 
         .nav-links a:hover,
         .nav-links a:focus-visible {
+
             color: var(--text);
+
         }
+
 
         .nav-links a:hover::after,
         .nav-links a:focus-visible::after {
+
             width: 100%;
+
         }
+
+
+        /* =================================================
+           HEADER ACTIONS
+        ================================================== */
 
         .shell-actions {
+
             display: flex;
+
             align-items: center;
+
             gap: 0.75rem;
+
         }
+
 
         .btn {
+
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 0.45rem;
+
             text-decoration: none;
+
             font-size: 0.88rem;
+
             font-weight: 500;
+
             letter-spacing: 0.01em;
+
             padding: 0.76rem 1.15rem;
+
             border-radius: var(--radius);
+
             transition: all 0.25s var(--ease);
+
             cursor: pointer;
+
             border: 1px solid transparent;
+
             font-family: inherit;
+
         }
 
+
         .btn-gold {
+
             background: var(--gold);
+
             color: #0d0d0d;
+
         }
+
 
         .btn-gold:hover,
         .btn-gold:focus-visible {
+
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.25);
+
+            box-shadow:
+                0 10px 30px
+                rgba(201, 169, 110, 0.25);
+
         }
 
+
         .btn-outline {
+
             background: transparent;
+
             color: var(--text);
+
             border-color: var(--border);
+
         }
+
 
         .btn-outline:hover,
         .btn-outline:focus-visible {
+
             border-color: var(--border-hover);
+
             transform: translateY(-2px);
+
         }
 
+
         .btn-ghost {
+
             background: transparent;
+
             color: var(--text-muted);
+
             border-color: var(--border);
+
         }
+
 
         .btn-ghost:hover,
         .btn-ghost:focus-visible {
+
             color: var(--gold);
+
             border-color: var(--gold);
+
         }
 
+
+        /* =================================================
+           THEME BUTTON
+        ================================================== */
+
         .icon-btn {
+
             width: 42px;
+
             height: 42px;
+
             padding: 0;
+
             border-radius: 50%;
+
             background: rgba(255, 255, 255, 0.02);
+
             border-color: var(--border);
+
             color: var(--text);
+
         }
+
 
         .icon-btn:hover,
         .icon-btn:focus-visible {
+
             border-color: var(--gold);
+
             color: var(--gold);
+
         }
+
+
+        /* =================================================
+           HAMBURGER
+        ================================================== */
 
         .menu-btn {
+
             display: none;
+
         }
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================== */
 
         .mobile-menu {
-            display: none;
-            padding: 0 1.25rem 1rem;
+
+            padding: 1rem 1.25rem 1.25rem;
+
             border-bottom: 1px solid var(--border);
-            background: rgba(13, 13, 13, 0.92);
+
+            background: rgba(13, 13, 13, 0.96);
+
             backdrop-filter: blur(18px);
+
             -webkit-backdrop-filter: blur(18px);
+
         }
+
 
         .mobile-menu a {
+
             display: block;
-            padding: 0.65rem 0;
+
+            padding: 0.75rem 0;
+
             text-decoration: none;
+
             color: var(--text-muted);
+
             font-size: 0.94rem;
+
+            transition:
+                color 0.2s ease,
+                padding-left 0.2s ease;
+
         }
+
 
         .mobile-menu a:hover {
+
             color: var(--text);
+
+            padding-left: 5px;
+
         }
+
+
+        /* =================================================
+           MOBILE NAV SECTION
+        ================================================== */
+
+        .mobile-nav-section {
+
+            padding-bottom: 0.75rem;
+
+        }
+
+
+        /* =================================================
+           MOBILE AUTH SECTION
+        ================================================== */
+
+        .mobile-auth-section {
+
+            border-top: 1px solid var(--border);
+
+            padding-top: 0.75rem;
+
+        }
+
+
+        .mobile-user {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.75rem;
+
+            padding: 0.75rem 0;
+
+            margin-bottom: 0.25rem;
+
+        }
+
+
+        .mobile-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f59e0b,
+                    #ea580c
+                );
+
+            color: white;
+
+            font-weight: 700;
+
+        }
+
+
+        .mobile-user-label {
+
+            font-size: 0.72rem;
+
+            color: var(--text-muted);
+
+        }
+
+
+        .mobile-user-name {
+
+            font-size: 0.95rem;
+
+            font-weight: 600;
+
+            color: var(--text);
+
+        }
+
+
+        .mobile-logout {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 0.75rem 0;
+
+            background: transparent;
+
+            border: none;
+
+            color: #ef4444;
+
+            text-align: left;
+
+            font: inherit;
+
+            cursor: pointer;
+
+            transition: color 0.2s ease;
+
+        }
+
+
+        .mobile-logout:hover {
+
+            color: #dc2626;
+
+        }
+
+
+        /* =================================================
+           SECTION
+        ================================================== */
 
         .section-shell {
+
             position: relative;
+
             overflow: hidden;
+
         }
+
 
         .section-shell::before {
+
             content: '';
+
             position: absolute;
+
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+
+            background-image:
+                url(
+                    "data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"
+                );
+
             pointer-events: none;
+
         }
+
 
         #particles {
+
             position: absolute;
+
             inset: 0;
+
             pointer-events: none;
+
         }
+
 
         .section-inner {
+
             max-width: 1180px;
+
             margin: 0 auto;
+
             padding: 0 1.25rem;
+
             position: relative;
+
             z-index: 1;
+
         }
+
 
         .section-eyebrow {
+
             font-family: 'DM Mono', monospace;
+
             font-size: 0.72rem;
+
             letter-spacing: 0.14em;
+
             text-transform: uppercase;
+
             color: var(--gold);
+
             margin-bottom: 1rem;
+
         }
+
 
         .section-heading {
+
             font-size: clamp(1.9rem, 4vw, 3rem);
+
             font-weight: 300;
+
             letter-spacing: -0.03em;
+
             line-height: 1.1;
+
             margin: 0;
+
         }
 
+
         .section-sub {
+
             color: var(--text-muted);
+
             max-width: 620px;
+
             margin: 1rem 0 0;
+
         }
+
+
+        /* =================================================
+           PROJECTS / SKILLS
+        ================================================== */
 
         .project-grid,
         .skill-grid {
+
             display: grid;
+
             gap: 1.5rem;
+
         }
 
+
         .project-grid {
-            grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+
+            grid-template-columns:
+                minmax(0, 1.35fr)
+                minmax(0, 0.65fr);
+
         }
+
 
         .project-card,
         .skill-card,
         .contact-card,
         .info-card {
+
             background: var(--bg-card);
+
             border: 1px solid var(--border);
+
             border-radius: 20px;
+
             overflow: hidden;
-            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.18);
+
+            box-shadow:
+                0 12px 50px
+                rgba(0, 0, 0, 0.18);
+
         }
+
 
         .project-card {
+
             position: relative;
+
             padding: 1.75rem;
-            transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+
+            transition:
+                background 0.25s var(--ease),
+                border-color 0.25s var(--ease),
+                transform 0.25s var(--ease);
+
         }
+
 
         .project-card:hover {
-            border-color: rgba(201, 169, 110, 0.26);
+
+            border-color:
+                rgba(201, 169, 110, 0.26);
+
             transform: translateY(-4px);
+
         }
+
 
         .project-card::before {
+
             content: '';
+
             position: absolute;
+
             inset: 0;
+
             pointer-events: none;
-            background: linear-gradient(135deg, transparent 40%, rgba(201, 169, 110, 0.05) 100%);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    transparent 40%,
+                    rgba(201, 169, 110, 0.05) 100%
+                );
+
             opacity: 0;
-            transition: opacity 0.3s var(--ease);
+
+            transition:
+                opacity 0.3s var(--ease);
+
         }
 
+
         .project-card:hover::before {
+
             opacity: 1;
+
         }
+
 
         .project-type,
         .project-meta,
         .mini-label {
+
             font-family: 'DM Mono', monospace;
+
             letter-spacing: 0.06em;
+
             color: var(--gold);
+
             font-size: 0.78rem;
+
             text-transform: uppercase;
+
         }
 
+
         .project-title {
-            font-size: clamp(1.4rem, 2vw, 2.1rem);
+
+            font-size:
+                clamp(1.4rem, 2vw, 2.1rem);
+
             font-weight: 500;
+
             line-height: 1.2;
+
             margin: 0.45rem 0 0;
+
         }
+
 
         .project-desc,
         .card-copy,
         .contact-copy {
+
             color: var(--text-muted);
+
         }
+
 
         .tech-tags {
+
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 0.55rem;
+
             margin-top: 1.25rem;
+
         }
 
+
         .tech-tags span {
+
             font-family: 'DM Mono', monospace;
+
             font-size: 0.72rem;
+
             padding: 0.34rem 0.7rem;
+
             border-radius: 999px;
+
             background: var(--gold-dim);
+
             color: var(--gold);
+
         }
+
 
         .project-actions,
         .contact-actions {
+
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 0.75rem;
+
             margin-top: 1.35rem;
+
         }
+
 
         .skill-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+
         }
+
 
         .skill-card {
+
             padding: 1.5rem;
+
         }
+
 
         .skill-list {
+
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 0.55rem;
+
             margin-top: 1rem;
+
         }
+
 
         .skill-pill {
+
             font-size: 0.8rem;
+
             padding: 0.42rem 0.8rem;
+
             border-radius: 999px;
+
             border: 1px solid var(--border);
+
             color: var(--text-muted);
+
             background: rgba(255, 255, 255, 0.015);
+
         }
 
+
+        /* =================================================
+           CONTACT
+        ================================================== */
+
         .contact-grid {
+
             display: grid;
-            grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+
+            grid-template-columns:
+                minmax(0, 0.85fr)
+                minmax(0, 1.15fr);
+
             gap: 1.5rem;
+
         }
+
 
         .contact-card,
         .info-card {
+
             padding: 1.5rem;
+
         }
+
 
         .contact-list {
+
             display: grid;
+
             gap: 0.9rem;
+
             margin-top: 1.25rem;
+
         }
+
 
         .contact-link {
+
             display: flex;
+
             align-items: center;
+
             gap: 0.8rem;
+
             color: var(--text);
+
             text-decoration: none;
+
             border: 1px solid var(--border);
+
             border-radius: 14px;
+
             padding: 0.9rem 1rem;
+
             background: rgba(255, 255, 255, 0.02);
-            transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+
+            transition:
+                transform 0.25s var(--ease),
+                border-color 0.25s var(--ease);
+
         }
+
 
         .contact-link:hover {
+
             transform: translateY(-2px);
-            border-color: rgba(201, 169, 110, 0.3);
+
+            border-color:
+                rgba(201, 169, 110, 0.3);
+
         }
+
 
         .contact-link-icon {
+
             width: 36px;
+
             height: 36px;
+
             display: grid;
+
             place-items: center;
+
             border-radius: 10px;
+
             background: var(--gold-dim);
+
             color: var(--gold);
+
             font-family: 'DM Mono', monospace;
+
             font-size: 0.78rem;
+
             flex: none;
+
         }
+
+
+        /* =================================================
+           FOOTER
+        ================================================== */
 
         .footer-shell {
+
             max-width: 1180px;
+
             margin: 0 auto;
-            padding: 2rem 1.25rem 2.75rem;
-            border-top: 1px solid var(--border);
+
+            padding:
+                2rem
+                1.25rem
+                2.75rem;
+
+            border-top:
+                1px solid var(--border);
+
             display: flex;
+
             justify-content: space-between;
+
             gap: 1rem;
+
             align-items: center;
+
             flex-wrap: wrap;
+
             color: var(--text-muted);
+
             font-size: 0.82rem;
+
         }
+
 
         .footer-shell a {
+
             color: var(--text-muted);
+
             text-decoration: none;
+
         }
+
 
         .footer-shell a:hover {
+
             color: var(--text);
+
         }
+
 
         .footer-links {
+
             display: flex;
+
             gap: 1rem;
+
             flex-wrap: wrap;
+
         }
+
+
+        /* =================================================
+           HERO
+        ================================================== */
 
         .hero-shell {
+
             padding: 4.5rem 0 4rem;
+
         }
+
 
         .hero-grid {
+
             display: grid;
-            grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+
+            grid-template-columns:
+                minmax(0, 1.08fr)
+                minmax(300px, 0.92fr);
+
             gap: 2rem;
+
             align-items: center;
+
         }
 
+
         .hero-heading {
-            font-size: clamp(2.8rem, 6vw, 5.2rem);
+
+            font-size:
+                clamp(2.8rem, 6vw, 5.2rem);
+
             font-weight: 300;
+
             line-height: 1.02;
+
             letter-spacing: -0.04em;
+
             margin: 0.6rem 0 1rem;
+
         }
+
 
         .hero-heading strong,
         .accent {
+
             color: var(--gold);
+
             font-weight: 500;
+
         }
+
 
         .hero-sub {
+
             font-size: 1.08rem;
+
             color: var(--text-muted);
+
             max-width: 640px;
+
             margin: 0 0 1.4rem;
+
         }
+
 
         .hero-type {
+
             font-family: 'DM Mono', monospace;
+
             color: var(--gold);
+
             letter-spacing: 0.06em;
+
         }
+
 
         #typewriter {
+
             display: inline-block;
+
             min-height: 1.2em;
+
         }
 
+
         #cursor {
+
             display: inline-block;
+
             width: 2px;
+
             height: 1em;
+
             background: var(--gold);
+
             margin-left: 3px;
+
             vertical-align: middle;
-            animation: blink 0.8s step-end infinite;
+
+            animation:
+                blink 0.8s step-end infinite;
+
         }
+
 
         @keyframes blink {
 
@@ -610,88 +1335,243 @@
             50% {
                 opacity: 0;
             }
+
         }
+
 
         .hero-panel {
+
             position: relative;
+
             padding: 1.4rem;
+
             border-radius: 24px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.04),
+                    rgba(255, 255, 255, 0.015)
+                );
+
             border: 1px solid var(--border);
-            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3);
+
+            box-shadow:
+                0 20px 70px
+                rgba(0, 0, 0, 0.3);
+
             overflow: hidden;
+
         }
+
 
         .hero-image {
+
             display: block;
+
             width: 100%;
+
             height: 210px;
+
             object-fit: cover;
+
             border-radius: 16px;
+
             margin-bottom: 1rem;
+
             opacity: 0.88;
+
         }
+
 
         .hero-panel::before {
+
             content: '';
+
             position: absolute;
+
             inset: 0;
-            background: radial-gradient(circle at top right, rgba(201, 169, 110, 0.18), transparent 30%), radial-gradient(circle at bottom left, rgba(201, 169, 110, 0.1), transparent 34%);
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(201, 169, 110, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at bottom left,
+                    rgba(201, 169, 110, 0.1),
+                    transparent 34%
+                );
+
             pointer-events: none;
+
         }
+
 
         .hero-metrics {
+
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 0.9rem;
+
         }
+
 
         .metric {
+
             position: relative;
+
             z-index: 1;
+
             padding: 1rem;
+
             border-radius: 18px;
-            background: rgba(13, 13, 13, 0.58);
+
+            background:
+                rgba(13, 13, 13, 0.58);
+
             border: 1px solid var(--border);
+
         }
+
 
         .metric-value {
+
             font-size: 1.5rem;
+
             font-weight: 700;
+
             color: var(--text);
+
             margin-bottom: 0.1rem;
+
         }
+
 
         .metric-label {
+
             color: var(--text-muted);
+
             font-size: 0.88rem;
+
         }
+
 
         .scroll-hint {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 0.65rem;
+
             color: var(--text-soft);
+
             font-family: 'DM Mono', monospace;
+
             font-size: 0.72rem;
+
             letter-spacing: 0.1em;
+
             text-transform: uppercase;
+
             margin-top: 1.35rem;
+
         }
+
 
         .scroll-hint-line {
+
             width: 42px;
+
             height: 1px;
-            background: linear-gradient(to right, var(--gold), transparent);
+
+            background:
+                linear-gradient(
+                    to right,
+                    var(--gold),
+                    transparent
+                );
+
         }
+
 
         main {
+
             min-height: 80vh;
+
         }
 
+
         .section-pad {
+
             padding: 4.5rem 0;
+
         }
+
+
+        /* =================================================
+           MESSAGE
+        ================================================== */
+
+        .message {
+
+            max-width: 1180px;
+
+            margin: 1rem auto;
+
+            padding: 0.9rem 1rem;
+
+            border-radius: 12px;
+
+            border: 1px solid var(--border);
+
+            background: var(--bg-card);
+
+            color: var(--text);
+
+        }
+
+
+        .message-success {
+
+            border-color:
+                rgba(34, 197, 94, 0.35);
+
+        }
+
+
+        .message-error {
+
+            border-color:
+                rgba(239, 68, 68, 0.35);
+
+        }
+
+
+        .message-info {
+
+            border-color:
+                rgba(59, 130, 246, 0.35);
+
+        }
+
+
+        .message-warning {
+
+            border-color:
+                rgba(245, 158, 11, 0.35);
+
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================== */
 
         @media (max-width: 1024px) {
 
@@ -699,400 +1579,1168 @@
             .project-grid,
             .contact-grid,
             .skill-grid {
+
                 grid-template-columns: 1fr;
+
             }
+
         }
 
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
         @media (max-width: 768px) {
+
             .shell-nav {
+
                 padding: 0 1rem;
+
             }
 
-            .nav-links,
-            .shell-actions .btn-outline,
-            .shell-actions .btn-gold {
+
+            /* Hide desktop navigation */
+
+            .nav-links {
+
                 display: none;
+
             }
+
+
+            /* Hide desktop action buttons */
+
+            .shell-actions .btn-gold {
+
+                display: none;
+
+            }
+
+
+            .shell-actions > .hidden.md\:flex {
+
+                display: none;
+
+            }
+
+
+            /* Show hamburger */
 
             .menu-btn {
+
                 display: inline-flex;
+
             }
+
 
             .hero-shell,
             .section-pad {
+
                 padding: 3.25rem 0;
+
             }
+
 
             .hero-heading {
-                font-size: clamp(2.5rem, 13vw, 4rem);
+
+                font-size:
+                    clamp(
+                        2.5rem,
+                        13vw,
+                        4rem
+                    );
+
             }
+
 
             .footer-shell {
+
                 justify-content: center;
+
                 text-align: center;
+
             }
+
         }
+
+
+        /* =================================================
+           SMALL MOBILE
+        ================================================== */
+
+        @media (max-width: 480px) {
+
+            .nav-logo span:last-child {
+
+                display: none;
+
+            }
+
+
+            .shell-actions {
+
+                gap: 0.5rem;
+
+            }
+
+
+            .mobile-menu {
+
+                padding-left: 1rem;
+
+                padding-right: 1rem;
+
+            }
+
+        }
+
     </style>
 
+
     {% block extra_css %}{% endblock %}
+
 </head>
 
+
 <body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
     <header>
-        <nav class="shell-nav" id="shell-nav">
-            <a href="{% url 'portfolio_home' %}" class="nav-logo" aria-label="Go to portfolio home">
-                <span class="nav-mark">AS</span>
-                <span>Akash Solanki</span>
+
+        <nav
+            class="shell-nav"
+            id="shell-nav"
+        >
+
+
+            <!-- LOGO -->
+
+            <a
+                href="{% url 'portfolio_home' %}"
+                class="nav-logo"
+                aria-label="Go to portfolio home"
+            >
+
+                <span class="nav-mark">
+                    AS
+                </span>
+
+                <span>
+                    Akash Solanki
+                </span>
+
             </a>
 
-            <ul class="nav-links" aria-label="Primary navigation">
-                <li><a href="{% url 'portfolio_home' %}">Home</a></li>
-                <li><a href="{% url 'portfolio_home' %}#about">About</a></li>
-                <li><a href="{% url 'portfolio_home' %}#skills">Skills</a></li>
-                <li><a href="{% url 'portfolio_home' %}#projects">Projects</a></li>
-                <li><a href="{% url 'index' %}">ChaiGallery</a></li>
-                <li><a href="{% url 'portfolio_home' %}#contact">Contact</a></li>
+
+            <!-- =================================================
+                 DESKTOP NAVIGATION
+            ================================================== -->
+
+            <ul
+                class="nav-links"
+                aria-label="Primary navigation"
+            >
+
+                <li>
+                    <a href="{% url 'portfolio_home' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'portfolio_home' %}#about">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'portfolio_home' %}#skills">
+                        Skills
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'portfolio_home' %}#projects">
+                        Projects
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'index' %}">
+                        ChaiGallery
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'portfolio_home' %}#contact">
+                        Contact
+                    </a>
+                </li>
+
             </ul>
 
-           <div class="shell-actions flex items-center gap-3">
 
-    <!-- Theme Toggle -->
-    <button
-        id="theme-toggle"
-        class="btn icon-btn flex items-center justify-center
-               w-10 h-10 rounded-full
-               transition-all duration-200
-               hover:scale-105"
-        type="button"
-        aria-label="Toggle theme"
-    >
-        <span id="theme-icon">🌙</span>
-    </button>
+            <!-- =================================================
+                 RIGHT SIDE ACTIONS
+            ================================================== -->
+
+            <div class="shell-actions">
 
 
-    <!-- Open ChaiGallery -->
-    <a
-        href="{% url 'index' %}"
-        class="btn btn-gold hidden sm:inline-flex
-               items-center gap-2
-               transition-all duration-200
-               hover:-translate-y-0.5"
-    >
-        <span>☕</span>
-        <span>Open ChaiGallery</span>
-    </a>
-
-
-    {% if user.is_authenticated %}
-
-        <!-- Logged-in User -->
-        <div class="hidden md:flex items-center gap-3">
-
-            <!-- User -->
-            
-                <div
-                    class="w-9 h-9 rounded-full
-                           bg-gradient-to-br from-amber-400 to-orange-600
-                           flex items-center justify-center
-                           text-white font-bold text-sm"
-                >
-                    {{ user.username|first|upper }}
-                </div>
-
-                <div class="leading-tight">
-                    
-
-                    <p class="font-semibold text-gray-900 dark:text-white">
-                        {{ user.username }}
-                    </p>
-                </div>
-            </a>
-
-
-            <!-- Logout -->
-            <form
-                method="POST"
-                action="{% url 'logout' %}"
-                class="inline"
-            >
-                {% csrf_token %}
+                <!-- Theme -->
 
                 <button
-                    type="submit"
-                    class="flex items-center gap-2
-                           px-4 py-2.5 rounded-xl
-                           border border-red-200
-                           text-red-600
-                           bg-red-50
-                           hover:bg-red-100
-                           dark:border-red-900/50
-                           dark:bg-red-950/30
-                           dark:text-red-400
-                           dark:hover:bg-red-950/50
-                           transition-all duration-200"
+                    id="theme-toggle"
+                    class="btn icon-btn"
+                    type="button"
+                    aria-label="Toggle theme"
                 >
-                    <span>↪</span>
-                    <span>Logout</span>
+
+                    <span id="theme-icon">
+                        🌙
+                    </span>
+
                 </button>
-            </form>
-
-        </div>
 
 
-        <!-- Mobile Menu Button -->
-        <button
-            id="menu-btn"
-            class="btn btn-outline menu-btn md:hidden"
-            type="button"
-            aria-label="Toggle menu"
-        >
-            ☰
-        </button>
+                <!-- Open ChaiGallery -->
+
+                <a
+                    href="{% url 'index' %}"
+                    class="btn btn-gold"
+                >
+
+                    <span>
+                        ☕
+                    </span>
+
+                    <span>
+                        Open ChaiGallery
+                    </span>
+
+                </a>
 
 
-    {% else %}
+                <!-- =================================================
+                     DESKTOP AUTHENTICATION
+                ================================================== -->
 
-        <!-- Guest Actions -->
-        <div class="hidden md:flex items-center gap-2">
-
-            <a
-                href="{% url 'login' %}"
-                class="px-5 py-2.5 rounded-xl
-                       bg-gray-900 text-white
-                       font-medium
-                       hover:bg-gray-700
-                       transition-all duration-200"
-            >
-                Login
-            </a>
-
-            <a
-                href="{% url 'register' %}"
-                class="px-5 py-2.5 rounded-xl
-                       border border-gray-300
-                       text-gray-800
-                       font-medium
-                       hover:bg-gray-100
-                       dark:border-gray-600
-                       dark:text-white
-                       dark:hover:bg-gray-800
-                       transition-all duration-200"
-            >
-                Register
-            </a>
-
-        </div>
+                {% if user.is_authenticated %}
 
 
-        <!-- Mobile Menu Button -->
-        <button
-            id="menu-btn"
-            class="btn btn-outline menu-btn md:hidden"
-            type="button"
-            aria-label="Toggle menu"
-        >
-            ☰
-        </button>
+                    <!-- Logged in -->
 
-    {% endif %}
+                    <div
+                        class="desktop-auth"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:0.75rem;
+                        "
+                    >
 
-</div>
+                        <!-- Profile -->
+
+                        <a
+                            href="{% url 'profile' %}"
+                            style="
+                                display:flex;
+                                align-items:center;
+                                gap:0.6rem;
+                                text-decoration:none;
+                            "
+                        >
+
+                            <div
+                                class="mobile-avatar"
+                                style="
+                                    width:36px;
+                                    height:36px;
+                                    font-size:0.85rem;
+                                "
+                            >
+
+                                {{ user.username|first|upper }}
+
+                            </div>
+
+
+                            <span
+                                style="
+                                    color:var(--text);
+                                    font-size:0.88rem;
+                                    font-weight:500;
+                                "
+                            >
+
+                                {{ user.username }}
+
+                            </span>
+
+                        </a>
+
+
+                        <!-- Logout -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'logout' %}"
+                            style="margin:0;"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-outline"
+                            >
+
+                                ↪ Logout
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <!-- Guest -->
+
+                    <div
+                        class="desktop-auth"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:0.5rem;
+                        "
+                    >
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="btn btn-outline"
+                        >
+                            Login
+                        </a>
+
+                        <a
+                            href="{% url 'register' %}"
+                            class="btn btn-gold"
+                        >
+                            Register
+                        </a>
+
+                    </div>
+
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     ONE HAMBURGER ONLY
+                ================================================== -->
+
+                <button
+                    id="menu-btn"
+                    class="btn btn-outline menu-btn"
+                    type="button"
+                    aria-label="Toggle menu"
+                    aria-expanded="false"
+                >
+
+                    ☰
+
+                </button>
+
+            </div>
+
         </nav>
 
-        <div id="mobile-menu" class="mobile-menu" hidden>
-            <a href="{% url 'portfolio_home' %}">Home</a>
-            <a href="{% url 'portfolio_home' %}#about">About</a>
-            <a href="{% url 'portfolio_home' %}#skills">Skills</a>
-            <a href="{% url 'portfolio_home' %}#projects">Projects</a>
-            <a href="{% url 'index' %}">ChaiGallery</a>
-            <a href="{% url 'portfolio_home' %}#contact">Contact</a>
+
+        <!-- =====================================================
+             MOBILE MENU
+        ====================================================== -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu"
+            hidden
+        >
+
+
+            <!-- MAIN NAVIGATION -->
+
+            <div class="mobile-nav-section">
+
+                <a href="{% url 'portfolio_home' %}">
+                    🏠 Home
+                </a>
+
+                <a href="{% url 'portfolio_home' %}#about">
+                    👤 About
+                </a>
+
+                <a href="{% url 'portfolio_home' %}#skills">
+                    🛠 Skills
+                </a>
+
+                <a href="{% url 'portfolio_home' %}#projects">
+                    💻 Projects
+                </a>
+
+                <a href="{% url 'index' %}">
+                    ☕ ChaiGallery
+                </a>
+
+                <a href="{% url 'portfolio_home' %}#contact">
+                    ✉ Contact
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 MOBILE AUTHENTICATION
+            ================================================== -->
+
+            <div class="mobile-auth-section">
+
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- User information -->
+
+                    <div class="mobile-user">
+
+                        <div class="mobile-avatar">
+
+                            {{ user.username|first|upper }}
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="mobile-user-label">
+                                Welcome back
+                            </div>
+
+                            <div class="mobile-user-name">
+                                {{ user.username }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Profile -->
+
+                    <a href="{% url 'profile' %}">
+                        👤 Profile
+                    </a>
+
+
+                    <!-- Logout -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'logout' %}"
+                        style="margin:0;"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="mobile-logout"
+                        >
+
+                            ↪ Logout
+
+                        </button>
+
+                    </form>
+
+
+                {% else %}
+
+
+                    <!-- Login -->
+
+                    <a href="{% url 'login' %}">
+                        🔐 Login
+                    </a>
+
+
+                    <!-- Register -->
+
+                    <a href="{% url 'register' %}">
+                        ✨ Create Account
+                    </a>
+
+
+                {% endif %}
+
+
+            </div>
+
         </div>
+
     </header>
 
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
     <main>
+
+
+        <!-- Django messages -->
+
         {% if messages %}
+
             {% for message in messages %}
-                <div class="message message-{{ message.tags }}">{{ message }}</div>
+
+                <div
+                    class="message message-{{ message.tags }}"
+                >
+
+                    {{ message }}
+
+                </div>
+
             {% endfor %}
+
         {% endif %}
+
+
         {% block content %}{% endblock %}
+
     </main>
 
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
     <footer>
+
         <div class="footer-shell">
+
             <div>
-                <strong style="color: var(--text); font-weight: 500;">Akash Solanki</strong>
-                <span> - Django Developer & BCA Student</span>
+
+                <strong
+                    style="
+                        color:var(--text);
+                        font-weight:500;
+                    "
+                >
+                    Akash Solanki
+                </strong>
+
+                <span>
+                    - Django Developer & BCA Student
+                </span>
+
             </div>
+
 
             <div class="footer-links">
-                <a href="{% url 'portfolio_home' %}#projects">Projects</a>
-                <a href="{% url 'index' %}">ChaiGallery</a>
-                <a href="mailto:solankiakash7016@gmail.com">Email</a>
-                <a href="https://www.linkedin.com/in/akash-solanki-21518a282/" target="_blank"
-                    rel="noreferrer">LinkedIn</a>
-                <a href="https://github.com/Akash112004" target="_blank" rel="noreferrer">GitHub</a>
+
+                <a href="{% url 'portfolio_home' %}#projects">
+                    Projects
+                </a>
+
+                <a href="{% url 'index' %}">
+                    ChaiGallery
+                </a>
+
+                <a href="mailto:solankiakash7016@gmail.com">
+                    Email
+                </a>
+
+                <a
+                    href="https://www.linkedin.com/in/akash-solanki-21518a282/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    LinkedIn
+                </a>
+
+                <a
+                    href="https://github.com/Akash112004"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    GitHub
+                </a>
+
             </div>
+
         </div>
+
     </footer>
 
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
     <script>
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuBtn = document.getElementById('menu-btn');
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================== */
+
+        const mobileMenu =
+            document.getElementById('mobile-menu');
+
+        const menuBtn =
+            document.getElementById('menu-btn');
+
 
         if (menuBtn && mobileMenu) {
+
             menuBtn.addEventListener('click', () => {
-                const isHidden = mobileMenu.hasAttribute('hidden');
+
+                const isHidden =
+                    mobileMenu.hasAttribute('hidden');
+
+
                 if (isHidden) {
+
                     mobileMenu.removeAttribute('hidden');
+
                     menuBtn.textContent = '✕';
+
+                    menuBtn.setAttribute(
+                        'aria-expanded',
+                        'true'
+                    );
+
                 } else {
-                    mobileMenu.setAttribute('hidden', '');
+
+                    mobileMenu.setAttribute(
+                        'hidden',
+                        ''
+                    );
+
                     menuBtn.textContent = '☰';
+
+                    menuBtn.setAttribute(
+                        'aria-expanded',
+                        'false'
+                    );
+
                 }
+
             });
+
+
+            /* Close menu after clicking a link */
+
+            mobileMenu
+                .querySelectorAll('a')
+                .forEach(link => {
+
+                    link.addEventListener(
+                        'click',
+                        () => {
+
+                            mobileMenu.setAttribute(
+                                'hidden',
+                                ''
+                            );
+
+                            menuBtn.textContent = '☰';
+
+                            menuBtn.setAttribute(
+                                'aria-expanded',
+                                'false'
+                            );
+
+                        }
+                    );
+
+                });
+
         }
 
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
+
+
+        /* =================================================
+           THEME TOGGLE
+        ================================================== */
+
+        const themeToggle =
+            document.getElementById('theme-toggle');
+
+        const themeIcon =
+            document.getElementById('theme-icon');
+
 
         const applyTheme = (dark) => {
-            document.documentElement.classList.toggle('dark', dark);
+
+            document.documentElement
+                .classList
+                .toggle(
+                    'dark',
+                    dark
+                );
+
+
             if (themeIcon) {
-                themeIcon.textContent = dark ? '☀️' : '🌙';
+
+                themeIcon.textContent =
+                    dark
+                        ? '☀️'
+                        : '🌙';
+
             }
-            localStorage.setItem('theme', dark ? 'dark' : 'light');
+
+
+            localStorage.setItem(
+                'theme',
+                dark
+                    ? 'dark'
+                    : 'light'
+            );
+
         };
 
-        applyTheme(localStorage.getItem('theme') !== 'light');
+
+        applyTheme(
+            localStorage.getItem('theme') !== 'light'
+        );
+
 
         if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                applyTheme(!document.documentElement.classList.contains('dark'));
-            });
+
+            themeToggle.addEventListener(
+                'click',
+                () => {
+
+                    applyTheme(
+                        !document.documentElement
+                            .classList
+                            .contains('dark')
+                    );
+
+                }
+            );
+
         }
 
-        const nav = document.getElementById('shell-nav');
-        window.addEventListener('scroll', () => {
-            if (nav) {
-                nav.style.borderBottomColor = window.scrollY > 10 ? 'rgba(201, 169, 110, 0.2)' : 'var(--border)';
+
+
+        /* =================================================
+           NAV SCROLL EFFECT
+        ================================================== */
+
+        const nav =
+            document.getElementById('shell-nav');
+
+
+        window.addEventListener(
+            'scroll',
+            () => {
+
+                if (nav) {
+
+                    nav.style.borderBottomColor =
+                        window.scrollY > 10
+                            ? 'rgba(201, 169, 110, 0.2)'
+                            : 'var(--border)';
+
+                }
+
+            },
+            {
+                passive: true
             }
-        }, { passive: true });
+        );
+
+
+
+        /* =================================================
+           REVEAL ANIMATION
+        ================================================== */
 
         (function () {
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-            document.querySelectorAll('.reveal, .stagger').forEach(element => observer.observe(element));
+            const observer =
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(
+                            entry => {
+
+                                if (
+                                    entry.isIntersecting
+                                ) {
+
+                                    entry.target
+                                        .classList
+                                        .add('visible');
+
+                                    observer.unobserve(
+                                        entry.target
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    },
+                    {
+                        threshold: 0.12,
+
+                        rootMargin:
+                            '0px 0px -40px 0px'
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    '.reveal, .stagger'
+                )
+                .forEach(
+                    element =>
+                        observer.observe(element)
+                );
+
         })();
 
+
+
+        /* =================================================
+           PARTICLES
+        ================================================== */
+
         (function () {
-            const canvas = document.getElementById('particles');
+
+            const canvas =
+                document.getElementById(
+                    'particles'
+                );
+
+
             if (!canvas) {
+
                 return;
+
             }
 
-            const ctx = canvas.getContext('2d');
+
+            const ctx =
+                canvas.getContext('2d');
+
+
             let width = 0;
+
             let height = 0;
+
             let particles = [];
+
+
             const count = 55;
 
+
             const resize = () => {
-                width = canvas.width = canvas.offsetWidth;
-                height = canvas.height = canvas.offsetHeight;
+
+                width =
+                    canvas.width =
+                    canvas.offsetWidth;
+
+                height =
+                    canvas.height =
+                    canvas.offsetHeight;
+
             };
+
 
             const makeParticle = () => ({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                r: Math.random() * 1.4 + 0.3,
-                vx: (Math.random() - 0.5) * 0.25,
-                vy: (Math.random() - 0.5) * 0.25,
-                a: Math.random() * 0.35 + 0.05,
+
+                x:
+                    Math.random() * width,
+
+                y:
+                    Math.random() * height,
+
+                r:
+                    Math.random() * 1.4 + 0.3,
+
+                vx:
+                    (Math.random() - 0.5) * 0.25,
+
+                vy:
+                    (Math.random() - 0.5) * 0.25,
+
+                a:
+                    Math.random() * 0.35 + 0.05,
+
             });
 
+
             const init = () => {
+
                 resize();
-                particles = Array.from({ length: count }, makeParticle);
+
+                particles =
+                    Array.from(
+                        {
+                            length: count
+                        },
+                        makeParticle
+                    );
+
             };
+
 
             const draw = () => {
-                ctx.clearRect(0, 0, width, height);
-                particles.forEach(particle => {
-                    ctx.beginPath();
-                    ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(201,169,110,${particle.a})`;
-                    ctx.fill();
 
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
+                ctx.clearRect(
+                    0,
+                    0,
+                    width,
+                    height
+                );
 
-                    if (particle.x < -5) particle.x = width + 5;
-                    if (particle.x > width + 5) particle.x = -5;
-                    if (particle.y < -5) particle.y = height + 5;
-                    if (particle.y > height + 5) particle.y = -5;
-                });
-                requestAnimationFrame(draw);
+
+                particles.forEach(
+                    particle => {
+
+                        ctx.beginPath();
+
+
+                        ctx.arc(
+                            particle.x,
+                            particle.y,
+                            particle.r,
+                            0,
+                            Math.PI * 2
+                        );
+
+
+                        ctx.fillStyle =
+                            `rgba(
+                                201,
+                                169,
+                                110,
+                                ${particle.a}
+                            )`;
+
+
+                        ctx.fill();
+
+
+                        particle.x +=
+                            particle.vx;
+
+                        particle.y +=
+                            particle.vy;
+
+
+                        if (
+                            particle.x < -5
+                        ) {
+
+                            particle.x =
+                                width + 5;
+
+                        }
+
+
+                        if (
+                            particle.x >
+                            width + 5
+                        ) {
+
+                            particle.x = -5;
+
+                        }
+
+
+                        if (
+                            particle.y < -5
+                        ) {
+
+                            particle.y =
+                                height + 5;
+
+                        }
+
+
+                        if (
+                            particle.y >
+                            height + 5
+                        ) {
+
+                            particle.y = -5;
+
+                        }
+
+                    }
+                );
+
+
+                requestAnimationFrame(
+                    draw
+                );
+
             };
 
-            window.addEventListener('resize', resize, { passive: true });
+
+            window.addEventListener(
+                'resize',
+                resize,
+                {
+                    passive: true
+                }
+            );
+
+
             init();
+
             draw();
+
         })();
+
+
+
+        /* =================================================
+           TYPEWRITER
+        ================================================== */
 
         (function () {
-            const typewriter = document.getElementById('typewriter');
+
+            const typewriter =
+                document.getElementById(
+                    'typewriter'
+                );
+
+
             if (!typewriter) {
+
                 return;
+
             }
 
+
             const phrases = [
+
                 'Django web applications.',
+
                 'Python backend systems.',
+
                 'Linux, PostgreSQL, and DevOps learning.',
+
                 'clean, responsive interfaces.',
+
             ];
 
+
             let phraseIndex = 0;
+
             let charIndex = 0;
+
             let deleting = false;
 
+
             const tick = () => {
-                const word = phrases[phraseIndex];
-                typewriter.textContent = deleting ? word.slice(0, charIndex - 1) : word.slice(0, charIndex + 1);
+
+                const word =
+                    phrases[phraseIndex];
+
+
+                typewriter.textContent =
+                    deleting
+                        ? word.slice(
+                            0,
+                            charIndex - 1
+                        )
+                        : word.slice(
+                            0,
+                            charIndex + 1
+                        );
+
 
                 if (!deleting) {
+
                     charIndex += 1;
+
                 } else {
+
                     charIndex -= 1;
+
                 }
 
-                let delay = deleting ? 38 : 78;
 
-                if (!deleting && charIndex === word.length) {
+                let delay =
+                    deleting
+                        ? 38
+                        : 78;
+
+
+                if (
+                    !deleting &&
+                    charIndex === word.length
+                ) {
+
                     deleting = true;
+
                     delay = 1800;
-                } else if (deleting && charIndex === 0) {
-                    deleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    delay = 380;
+
                 }
 
-                setTimeout(tick, delay);
+
+                else if (
+                    deleting &&
+                    charIndex === 0
+                ) {
+
+                    deleting = false;
+
+                    phraseIndex =
+                        (
+                            phraseIndex + 1
+                        ) % phrases.length;
+
+                    delay = 380;
+
+                }
+
+
+                setTimeout(
+                    tick,
+                    delay
+                );
+
             };
 
+
             tick();
+
         })();
+
     </script>
 
+
     {% block extra_js %}{% endblock %}
+
 </body>
 
 </html>
