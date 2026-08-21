@@ -73,9 +73,22 @@ def categories(request):
     })
 
 
+
+
 def upload(request):
 
-    if request.method == 'POST':
+    # User must be logged in to upload
+    if not request.user.is_authenticated:
+
+        messages.info(
+            request,
+            "Please create an account or log in to upload your chai."
+        )
+
+        return redirect("login")
+
+
+    if request.method == "POST":
 
         form = TeaForm(
             request.POST,
@@ -86,22 +99,29 @@ def upload(request):
 
             tea = form.save(commit=False)
 
+            # The uploader becomes the owner
             tea.user = request.user
 
             tea.save()
 
-            return redirect('gallery')
+            messages.success(
+                request,
+                "Your tea has been uploaded successfully! ☕"
+            )
+
+            return redirect("gallery")
 
     else:
         form = TeaForm()
 
-    teas = Tea.objects.all()
 
-    return render(request, 'upload.html', {
-        'form': form,
-        'teas': teas
-    })
-
+    return render(
+        request,
+        "upload.html",
+        {
+            "form": form,
+        }
+    )
 
 def edit_tea(request, tea_id):
 
