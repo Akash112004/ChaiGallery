@@ -3,82 +3,239 @@
 {% block title %}Categories | ChaiGallery{% endblock %}
 
 {% block content %}
-<section class="relative overflow-hidden">
-    <div
-        class="absolute inset-0 bg-[linear-gradient(135deg,rgba(185,109,53,0.08),transparent_35%),radial-gradient(circle_at_top_right,rgba(246,205,157,0.18),transparent_25%)]">
-    </div>
 
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div class="max-w-3xl">
+<section class="bg-amber-50/50 dark:bg-gray-950 min-h-screen py-16">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Header -->
+        <div class="text-center mb-14">
+
             <span
-                class="inline-flex items-center rounded-full bg-chai-100 text-chai-700 px-4 py-2 text-sm font-medium">Tea
-                categories</span>
-            <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
-                Group your teas by style and flavor</h1>
-            <p class="mt-5 text-lg text-gray-600 dark:text-gray-400 max-w-2xl">This page now builds category blocks from
-                the teas in your database instead of rendering the homepage.</p>
+                class="inline-flex px-4 py-2 rounded-full
+                       bg-amber-100 text-amber-800
+                       dark:bg-amber-900/30 dark:text-amber-300
+                       text-sm font-semibold">
+                Explore by taste
+            </span>
+
+            <h1 class="mt-5 text-4xl lg:text-6xl font-bold
+                       text-gray-900 dark:text-white">
+                Chai Categories
+            </h1>
+
+            <p class="mt-4 max-w-2xl mx-auto
+                      text-gray-600 dark:text-gray-400">
+                Discover different types of chai and explore
+                the tea experiences shared by our community.
+            </p>
+
+            <p class="mt-3 text-sm text-amber-700 dark:text-amber-400">
+                {{ total_teas }} teas in ChaiGallery
+            </p>
+
         </div>
 
-        <div class="mt-10 grid gap-4 sm:grid-cols-3">
-            <div
-                class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Categories</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">4</p>
-            </div>
-            <div
-                class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Teas scanned</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ total_teas }}</p>
-            </div>
-            <div
-                class="rounded-3xl bg-white/90 dark:bg-gray-900/90 border border-amber-100 dark:border-gray-800 p-5 shadow-lg">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Matching entries</p>
-                <p class="mt-2 text-3xl font-bold text-chai-700 dark:text-chai-300">{{ total_teas }}</p>
-            </div>
-        </div>
-    </div>
-</section>
 
-<section class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-6 lg:grid-cols-2">
+        <!-- Categories -->
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+
             {% for category in category_cards %}
+
             <article
-                class="rounded-3xl bg-white dark:bg-gray-900 shadow-lg border border-amber-100 dark:border-gray-800 p-6">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ category.name }}</h2>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ category.description }}</p>
+                class="group bg-white dark:bg-gray-900
+                       rounded-3xl overflow-hidden
+                       border border-amber-100 dark:border-gray-800
+                       shadow-lg hover:shadow-2xl
+                       transition duration-300
+                       hover:-translate-y-2">
+
+                <!-- Category Header -->
+                <div
+                    class="p-6 bg-gradient-to-br
+                           from-amber-100 to-orange-100
+                           dark:from-gray-800 dark:to-gray-900">
+
+                    <div class="flex items-center justify-between">
+
+                        <div
+                            class="w-12 h-12 rounded-2xl
+                                   bg-white/70 dark:bg-gray-700
+                                   flex items-center justify-center
+                                   text-2xl">
+                            ☕
+                        </div>
+
+                        <span
+                            class="px-3 py-1 rounded-full
+                                   bg-white/70 dark:bg-gray-800
+                                   text-amber-800 dark:text-amber-300
+                                   text-xs font-bold">
+                            {{ category.count }} teas
+                        </span>
+
                     </div>
-                    <span class="shrink-0 rounded-full bg-chai-100 text-chai-700 px-3 py-1 text-sm font-semibold">{{
-                        category.count }}</span>
+
+                    <h2
+                        class="mt-6 text-2xl font-bold
+                               text-gray-900 dark:text-white">
+                        {{ category.name }}
+                    </h2>
+
+                    <p
+                        class="mt-3 text-sm leading-6
+                               text-gray-600 dark:text-gray-400">
+                        {{ category.description }}
+                    </p>
+
                 </div>
 
-                <div class="mt-6">
+
+                <!-- Matching Teas -->
+                <div class="p-5">
+
                     {% if category.teas %}
-                    <div class="grid sm:grid-cols-2 gap-4">
-                        {% for tea in category.teas %}
+
+                    <div class="space-y-4">
+
+                        {% for tea in category.teas|slice:":3" %}
+
                         <div
-                            class="overflow-hidden rounded-2xl border border-amber-100 dark:border-gray-800 bg-amber-50 dark:bg-gray-950">
-                            <img src="{{ tea.image.url }}" alt="{{ tea.name }}" class="h-40 w-full object-cover">
-                            <div class="p-4">
-                                <h3 class="font-semibold text-gray-900 dark:text-white">{{ tea.name }}</h3>
-                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ tea.description|default:'No
-                                    description provided.' }}</p>
+                            class="flex items-center gap-4
+                                   p-3 rounded-2xl
+                                   bg-amber-50 dark:bg-gray-800
+                                   group-hover:bg-amber-100
+                                   dark:group-hover:bg-gray-750
+                                   transition">
+
+                            {% if tea.image %}
+
+                            <img
+                                src="{{ tea.image.url }}"
+                                alt="{{ tea.name }}"
+                                class="w-14 h-14 rounded-xl
+                                       object-cover">
+
+                            {% else %}
+
+                            <div
+                                class="w-14 h-14 rounded-xl
+                                       bg-amber-200
+                                       flex items-center justify-center">
+                                ☕
                             </div>
+
+                            {% endif %}
+
+                            <div class="min-w-0">
+
+                                <h3
+                                    class="font-semibold
+                                           text-gray-900
+                                           dark:text-white
+                                           truncate">
+                                    {{ tea.name }}
+                                </h3>
+
+                                <p
+                                    class="text-xs text-gray-500
+                                           dark:text-gray-400
+                                           truncate">
+                                    Shared by {{ tea.user.username }}
+                                </p>
+
+                            </div>
+
                         </div>
+
                         {% endfor %}
+
                     </div>
+
                     {% else %}
-                    <div
-                        class="rounded-2xl border border-dashed border-amber-300 bg-amber-50 dark:bg-gray-950 p-6 text-sm text-gray-600 dark:text-gray-400">
-                        No teas match this category yet. Upload one with matching words in the name or description.
+
+                    <div class="py-8 text-center">
+
+                        <div class="text-3xl mb-3">
+                            🍵
+                        </div>
+
+                        <p
+                            class="text-sm text-gray-500
+                                   dark:text-gray-400">
+                            No teas in this category yet.
+                        </p>
+
                     </div>
+
                     {% endif %}
+
+
+                    <!-- Gallery Link -->
+                    <a
+                        href="{% url 'gallery' %}"
+                        class="mt-5 w-full inline-flex
+                               justify-center items-center
+                               px-4 py-3 rounded-xl
+                               bg-amber-100
+                               text-amber-800
+                               dark:bg-amber-900/30
+                               dark:text-amber-300
+                               font-semibold
+                               hover:bg-amber-200
+                               dark:hover:bg-amber-900/50
+                               transition">
+
+                        Explore Gallery →
+
+                    </a>
+
                 </div>
+
             </article>
+
             {% endfor %}
+
         </div>
+
+
+        <!-- Bottom CTA -->
+        <div
+            class="mt-16 rounded-3xl
+                   bg-gradient-to-r
+                   from-amber-600
+                   via-orange-600
+                   to-amber-700
+                   p-10 lg:p-14
+                   text-center text-white
+                   shadow-2xl">
+
+            <h2 class="text-3xl lg:text-4xl font-bold">
+                Don't see your favorite chai?
+            </h2>
+
+            <p class="mt-4 text-amber-100 max-w-xl mx-auto">
+                Share it with the ChaiGallery community and
+                help us grow our collection.
+            </p>
+
+            <a
+                href="{% url 'upload' %}"
+                class="mt-7 inline-flex
+                       px-6 py-3 rounded-2xl
+                       bg-white text-amber-700
+                       font-semibold
+                       hover:bg-amber-50
+                       transition">
+
+                Upload Your Tea
+
+            </a>
+
+        </div>
+
     </div>
+
 </section>
+
 {% endblock %}

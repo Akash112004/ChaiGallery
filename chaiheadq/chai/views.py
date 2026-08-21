@@ -23,10 +23,49 @@ def gallery(request):
 
 
 def categories(request):
-    teas = Tea.objects.all().order_by('-created_at')
+    teas = Tea.objects.all()
+
+    categories = {
+        'Masala & Spiced': [
+            'masala', 'chai', 'spice', 'spiced',
+            'ginger', 'cardamom', 'cinnamon'
+        ],
+
+        'Green & Fresh': [
+            'green', 'matcha', 'mint', 'fresh'
+        ],
+
+        'Herbal & Floral': [
+            'herbal', 'flower', 'floral',
+            'chamomile', 'lavender', 'rose'
+        ],
+
+        'Strong & Black': [
+            'black', 'assam', 'darjeeling',
+            'english breakfast', 'strong'
+        ],
+    }
+
+    category_cards = []
+
+    for category_name, keywords in categories.items():
+        matched_teas = []
+
+        for tea in teas:
+            text = f"{tea.name} {tea.description}".lower()
+
+            if any(keyword in text for keyword in keywords):
+                matched_teas.append(tea)
+
+        category_cards.append({
+            'name': category_name,
+            'teas': matched_teas,
+            'count': len(matched_teas),
+        })
 
     return render(request, 'categories.html', {
-        'teas': teas
+        'category_cards': category_cards,
+        'total_teas': teas.count(),
     })
 
 

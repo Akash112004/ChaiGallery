@@ -3,8 +3,27 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Tea(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teas')
+    CATEGORY_CHOICES = [
+        ('masala', 'Masala & Spiced'),
+        ('green', 'Green & Fresh'),
+        ('herbal', 'Herbal & Floral'),
+        ('black', 'Strong & Black'),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='teas'
+    )
+
     name = models.CharField(max_length=100)
+
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='masala'
+    )
+
     description = models.TextField(blank=True)
 
     image = models.ImageField(upload_to='tea_images/')
@@ -15,6 +34,5 @@ class Tea(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-def __str__(self):
-     return self.name
-    
+    def __str__(self):
+        return f'{self.user.username} - {self.name}'
