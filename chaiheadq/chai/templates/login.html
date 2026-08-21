@@ -1,55 +1,470 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center px-4">
 
-    <div class="w-full max-w-md">
+<div class="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-12">
 
-        <h1 class="text-3xl font-bold text-center mb-2">
-            Welcome Back
-        </h1>
+    <div class="w-full max-w-5xl grid md:grid-cols-2
+                bg-white dark:bg-gray-900
+                rounded-3xl overflow-hidden
+                shadow-2xl
+                border border-gray-100 dark:border-gray-800">
 
-        <p class="text-center text-gray-500 mb-8">
-            Login to your ChaiGallery account
-        </p>
+        <!-- =========================
+             LEFT — BRAND SECTION
+        ========================== -->
 
-        {% if error %}
-            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                {{ error }}
+        <div class="hidden md:flex relative overflow-hidden
+                    bg-gradient-to-br from-amber-500 via-orange-500 to-amber-700
+                    p-10 lg:p-14
+                    text-white
+                    flex-col justify-between">
+
+            <!-- Decorative circles -->
+            <div class="absolute -top-24 -right-24
+                        w-72 h-72 rounded-full
+                        bg-white/10"></div>
+
+            <div class="absolute -bottom-32 -left-20
+                        w-80 h-80 rounded-full
+                        bg-white/10"></div>
+
+            <!-- Brand -->
+            <div class="relative z-10">
+
+                <div class="flex items-center gap-3 mb-10">
+
+                    <div class="w-12 h-12 rounded-2xl
+                                bg-white/20 backdrop-blur-sm
+                                flex items-center justify-center
+                                text-2xl">
+                        ☕
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-bold">
+                            ChaiGallery
+                        </h2>
+
+                        <p class="text-sm text-white/70">
+                            Discover. Share. Enjoy.
+                        </p>
+                    </div>
+
+                </div>
+
+                <h1 class="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+                    Every cup has
+                    <span class="text-amber-100">
+                        a story.
+                    </span>
+                </h1>
+
+                <p class="text-white/80 leading-relaxed max-w-md">
+                    Explore unique chai varieties, discover new flavors,
+                    and share your favorite tea experiences with the
+                    ChaiGallery community.
+                </p>
+
             </div>
-        {% endif %}
 
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
 
-            <input
-                type="text"
-                name="username"
-                placeholder="Enter your username"
-                required
+            <!-- Bottom quote -->
+            <div class="relative z-10 mt-12">
+
+                <div class="h-px bg-white/20 mb-5"></div>
+
+                <p class="text-sm text-white/70">
+                    “A cup of chai is more than a drink.
+                    It's a moment.”
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIGHT — LOGIN FORM
+        ========================== -->
+
+        <div class="p-7 sm:p-10 lg:p-14">
+
+            <!-- Mobile brand -->
+            <div class="md:hidden flex items-center justify-center gap-3 mb-8">
+
+                <div class="w-11 h-11 rounded-xl
+                            bg-amber-500
+                            flex items-center justify-center
+                            text-xl">
+                    ☕
+                </div>
+
+                <div>
+                    <h2 class="font-bold text-xl
+                               text-gray-900 dark:text-white">
+                        ChaiGallery
+                    </h2>
+
+                    <p class="text-xs text-gray-500">
+                        Discover. Share. Enjoy.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Heading -->
+            <div class="mb-8">
+
+                <p class="text-sm font-semibold
+                          text-amber-600 dark:text-amber-400
+                          mb-2">
+                    WELCOME BACK
+                </p>
+
+                <h1 class="text-3xl sm:text-4xl
+                           font-bold
+                           text-gray-900 dark:text-white
+                           mb-3">
+                    Sign in to your account
+                </h1>
+
+                <p class="text-gray-500 dark:text-gray-400">
+                    Continue your chai journey with us.
+                </p>
+
+            </div>
+
+
+            <!-- Error -->
+            {% if error %}
+
+                <div class="mb-6 flex items-start gap-3
+                            p-4 rounded-xl
+                            bg-red-50 dark:bg-red-950/30
+                            border border-red-200 dark:border-red-900/50
+                            text-red-700 dark:text-red-400">
+
+                    <span class="text-lg">⚠</span>
+
+                    <div>
+                        <p class="font-semibold">
+                            Login failed
+                        </p>
+
+                        <p class="text-sm mt-1">
+                            {{ error }}
+                        </p>
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Login Form -->
+            <form method="POST"
+                  action="{% url 'login' %}"
+                  class="space-y-5">
+
+                {% csrf_token %}
+
+
+                <!-- Username -->
+                <div>
+
+                    <label
+                        for="username"
+                        class="block mb-2 text-sm font-semibold
+                               text-gray-700 dark:text-gray-300"
+                    >
+                        Username
+                    </label>
+
+                    <div class="relative">
+
+                        <span class="absolute left-4 top-1/2
+                                     -translate-y-1/2
+                                     text-gray-400">
+                            👤
+                        </span>
+
+                        <input
+                            id="username"
+                            type="text"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                            class="w-full pl-11 pr-4 py-3.5
+                                   rounded-xl
+                                   border border-gray-300
+                                   dark:border-gray-700
+                                   bg-gray-50
+                                   dark:bg-gray-800
+                                   text-gray-900
+                                   dark:text-white
+                                   placeholder-gray-400
+                                   outline-none
+                                   transition-all duration-200
+                                   focus:bg-white
+                                   dark:focus:bg-gray-900
+                                   focus:border-amber-500
+                                   focus:ring-4
+                                   focus:ring-amber-500/10"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+                <div>
+
+                    <div class="flex items-center justify-between mb-2">
+
+                        <label
+                            for="password"
+                            class="text-sm font-semibold
+                                   text-gray-700 dark:text-gray-300"
+                        >
+                            Password
+                        </label>
+
+                        <!-- Add your password reset URL later -->
+                        <a
+                            href="#"
+                            class="text-sm font-medium
+                                   text-amber-600
+                                   hover:text-amber-700
+                                   dark:text-amber-400"
+                        >
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <div class="relative">
+
+                        <span class="absolute left-4 top-1/2
+                                     -translate-y-1/2
+                                     text-gray-400">
+                            🔒
+                        </span>
+
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                            class="w-full pl-11 pr-12 py-3.5
+                                   rounded-xl
+                                   border border-gray-300
+                                   dark:border-gray-700
+                                   bg-gray-50
+                                   dark:bg-gray-800
+                                   text-gray-900
+                                   dark:text-white
+                                   placeholder-gray-400
+                                   outline-none
+                                   transition-all duration-200
+                                   focus:bg-white
+                                   dark:focus:bg-gray-900
+                                   focus:border-amber-500
+                                   focus:ring-4
+                                   focus:ring-amber-500/10"
+                        >
+
+
+                        <!-- Password visibility -->
+                        <button
+                            type="button"
+                            id="toggle-password"
+                            class="absolute right-3 top-1/2
+                                   -translate-y-1/2
+                                   w-9 h-9
+                                   rounded-lg
+                                   text-gray-400
+                                   hover:text-gray-700
+                                   dark:hover:text-gray-200
+                                   hover:bg-gray-100
+                                   dark:hover:bg-gray-700
+                                   transition"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Remember -->
+                <div class="flex items-center gap-2">
+
+                    <input
+                        id="remember"
+                        type="checkbox"
+                        class="w-4 h-4 rounded
+                               border-gray-300
+                               text-amber-500
+                               focus:ring-amber-500"
+                    >
+
+                    <label
+                        for="remember"
+                        class="text-sm text-gray-500
+                               dark:text-gray-400"
+                    >
+                        Remember me
+                    </label>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button
+                    id="login-button"
+                    type="submit"
+                    class="w-full py-3.5
+                           rounded-xl
+                           bg-gray-900
+                           dark:bg-amber-500
+                           text-white
+                           dark:text-gray-950
+                           font-semibold
+                           flex items-center justify-center gap-2
+                           shadow-lg
+                           hover:bg-gray-800
+                           dark:hover:bg-amber-400
+                           hover:-translate-y-0.5
+                           active:translate-y-0
+                           transition-all duration-200"
+                >
+
+                    <span id="login-text">
+                        Sign in
+                    </span>
+
+                    <span id="login-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- Register -->
+            <div class="relative my-8">
+
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t
+                                border-gray-200
+                                dark:border-gray-700">
+                    </div>
+                </div>
+
+                <div class="relative flex justify-center">
+
+                    <span class="px-4
+                                 bg-white
+                                 dark:bg-gray-900
+                                 text-sm text-gray-400">
+                        New to ChaiGallery?
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{% url 'register' %}"
+                class="w-full py-3.5
+                       rounded-xl
+                       border-2
+                       border-gray-200
+                       dark:border-gray-700
+                       text-gray-800
+                       dark:text-gray-200
+                       font-semibold
+                       flex items-center justify-center
+                       hover:border-amber-500
+                       hover:text-amber-600
+                       dark:hover:text-amber-400
+                       transition-all duration-200"
             >
-
-            <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-            >
-
-            <button type="submit">
-                Login
-            </button>
-        </form>
-
-        <p class="text-center mt-6">
-            Don't have an account?
-            <a href="{% url 'register' %}" class="font-semibold">
-                Create one
+                Create an account
             </a>
-        </p>
+
+
+            <!-- Security note -->
+            <p class="text-center text-xs
+                      text-gray-400
+                      mt-6">
+                🔒 Your account information is securely handled by Django.
+            </p>
+
+        </div>
 
     </div>
 
 </div>
+
+
+<!-- =========================
+     INTERACTIONS
+========================== -->
+
+<script>
+
+    // Password visibility
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("toggle-password");
+
+    togglePassword.addEventListener("click", function () {
+
+        const isPassword = passwordInput.type === "password";
+
+        passwordInput.type = isPassword ? "text" : "password";
+
+        this.textContent = isPassword ? "🙈" : "👁";
+
+        this.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
+
+    });
+
+
+    // Login button loading state
+    const loginForm = document.querySelector("form");
+    const loginButton = document.getElementById("login-button");
+    const loginText = document.getElementById("login-text");
+    const loginArrow = document.getElementById("login-arrow");
+
+    loginForm.addEventListener("submit", function () {
+
+        loginButton.disabled = true;
+
+        loginButton.classList.add(
+            "opacity-80",
+            "cursor-not-allowed"
+        );
+
+        loginText.textContent = "Signing in...";
+        loginArrow.textContent = "⏳";
+
+    });
+
+</script>
 
 {% endblock %}
