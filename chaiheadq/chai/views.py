@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import TeaForm
 from .models import Tea
 
 
-def home(request):
+def index(request):
     teas = Tea.objects.all()[:4]
 
     return render(request, 'index.html', {
@@ -158,6 +162,70 @@ def tea_delete(request, tea_id):
         'tea': tea
     })
 
+def register_view(request):
+
+    if request.method == "POST":
+
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if password != confirm_password:
+            return render(request, "register.html", {
+                "error": "Passwords do not match."
+            })
+
+        if User.objects.filter(username=username).exists():
+            return render(request, "register.html", {
+                "error": "Username already exists."
+            })
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        login(request, user)
+
+        return redirect("index")
+
+    return render(request, "register.html")
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+            login(request, user)
+
+            messages.success(
+                request,
+                f"Login successful! Welcome back, {user.username}."
+            )
+
+            return redirect("index")
+
+        messages.error(
+            request,
+            "Invalid username or password."
+        )
+
+    return render(request, "login.html")
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect("login")
 
 def about(request):
     return render(request, 'about.html')
@@ -165,10 +233,6 @@ def about(request):
 
 def contact(request):
     return render(request, 'contact.html')
-
-
-def login_view(request):
-    return render(request, 'login.html')
 
 
 def profile(request):
