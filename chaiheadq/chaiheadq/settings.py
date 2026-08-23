@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'chaiheadq.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 database_url = os.getenv('DATABASE_URL')
 if not database_url:
-    raise RuntimeError('DATABASE_URL is required.')
+    raise RuntimeError('postgresql://admin:ELbdE9Wo1ARdOB1X3quLznhNaPsstM6X@dpg-da5jfnuk1f9s738r9sd0-a/chaigallery_db')
 DATABASES = {
     'default': dj_database_url.parse(database_url, conn_max_age=600, ssl_require=not DEBUG)
 }
