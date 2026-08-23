@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,7 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(15yw8!x-&bxjk(#bgmb!-9)8=pgr#4$50gf$-6c0)x9q5f5ei'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise RuntimeError('DJANGO_SECRET_KEY is required.')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,16 +90,51 @@ WSGI_APPLICATION = 'chaiheadq.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+database_url = os.getenv('DATABASE_URL') or os.getenv('POSTGRES_URL')
+
+if database_url:
+    parsed_database_url = urlparse(database_url)
+    if parsed_database_url.scheme not in ('postgres', 'postgresql'):
+        raise RuntimeError('DATABASE_URL must use the postgres:// or postgresql:// scheme.')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': parsed_database_url.path.lstrip('/'),
+            'USER': parsed_database_url.username,
+            'PASSWORD': parsed_database_url.password,
+            'HOST': parsed_database_url.hostname,
+            'PORT': parsed_database_url.port or 5432,
+        }
     }
-}
+else:
+    postgres_host = os.getenv('POSTGRES_HOST')
+    required_postgres_settings = {
+        'POSTGRES_DB': os.getenv('POSTGRES_DB'),
+        'POSTGRES_USER': os.getenv('POSTGRES_USER'),
+        'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'POSTGRES_HOST': postgres_host,
+        'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
+    }
+    missing_postgres_settings = [
+        name for name, value in required_postgres_settings.items() if not value
+    ]
+    if missing_postgres_settings:
+        raise RuntimeError(
+            'Configure DATABASE_URL (recommended) or all POSTGRES_* variables. '
+            f'Missing: {", ".join(missing_postgres_settings)}'
+        )
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': required_postgres_settings['POSTGRES_DB'],
+            'USER': required_postgres_settings['POSTGRES_USER'],
+            'PASSWORD': required_postgres_settings['POSTGRES_PASSWORD'],
+            'HOST': postgres_host,
+            'PORT': required_postgres_settings['POSTGRES_PORT'],
+        }
+    }
 
 
 # Password validation
