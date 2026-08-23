@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-from urllib.parse import urlparse
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,22 +26,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY') or os.getenv('SECRET_KEY')
 if not SECRET_KEY:
-    raise RuntimeError('DJANGO_SECRET_KEY is required.')
+    raise RuntimeError('SECRET_KEY is required.')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = [
-    ".vercel.app",
-    "127.0.0.1",
-    "localhost",
-    # "4f64-2402-3a80-4664-73e7-64df-d2cb-74d2-312c.ngrok-free.app",
-]
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.vercel.app",
-]
+ALLOWED_HOSTS = [host.strip() for host in os.getenv(
+    'ALLOWED_HOSTS', 'localhost,127.0.0.1'
+).split(',') if host.strip()]
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv(
+    'CSRF_TRUSTED_ORIGINS', ''
+).split(',') if origin.strip()]
 
 
 # Application definition
@@ -59,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -90,51 +88,12 @@ WSGI_APPLICATION = 'chaiheadq.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-database_url = os.getenv('DATABASE_URL') or os.getenv('POSTGRES_URL')
-
-if database_url:
-    parsed_database_url = urlparse(database_url)
-    if parsed_database_url.scheme not in ('postgres', 'postgresql'):
-        raise RuntimeError('DATABASE_URL must use the postgres:// or postgresql:// scheme.')
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': parsed_database_url.path.lstrip('/'),
-            'USER': parsed_database_url.username,
-            'PASSWORD': parsed_database_url.password,
-            'HOST': parsed_database_url.hostname,
-            'PORT': parsed_database_url.port or 5432,
-        }
-    }
-else:
-    postgres_host = os.getenv('POSTGRES_HOST')
-    required_postgres_settings = {
-        'POSTGRES_DB': os.getenv('POSTGRES_DB'),
-        'POSTGRES_USER': os.getenv('POSTGRES_USER'),
-        'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'POSTGRES_HOST': postgres_host,
-        'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
-    }
-    missing_postgres_settings = [
-        name for name, value in required_postgres_settings.items() if not value
-    ]
-    if missing_postgres_settings:
-        raise RuntimeError(
-            'Configure DATABASE_URL (recommended) or all POSTGRES_* variables. '
-            f'Missing: {", ".join(missing_postgres_settings)}'
-        )
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': required_postgres_settings['POSTGRES_DB'],
-            'USER': required_postgres_settings['POSTGRES_USER'],
-            'PASSWORD': required_postgres_settings['POSTGRES_PASSWORD'],
-            'HOST': postgres_host,
-            'PORT': required_postgres_settings['POSTGRES_PORT'],
-        }
-    }
+database_url = os.getenv('DATABASE_URL')
+if not database_url:
+    raise RuntimeError('DATABASE_URL is required.')
+DATABASES = {
+    'default': dj_database_url.parse(database_url, conn_max_age=600, ssl_require=not DEBUG)
+}
 
 
 # Password validation
@@ -172,8 +131,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -186,7 +143,8 @@ STATICFILES_DIRS = [
     BASE_DIR.parent / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# admin panel password 
-# userNmae = asus
-# password = chai@123
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
