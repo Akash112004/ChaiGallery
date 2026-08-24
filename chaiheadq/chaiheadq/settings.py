@@ -96,7 +96,7 @@ if not database_url:
     raise RuntimeError("DATABASE_URL environment variable is not set")
 
 DATABASES = {
-    "default": dj_database_rl.parse(
+    "default": dj_database_url.parse(
         database_url,
         conn_max_age=600,
         ssl_require=not DEBUG,
