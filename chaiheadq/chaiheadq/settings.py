@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'chaiheadq.wsgi.application'
 database_url = os.getenv("postgresql://admin:ELbdE9Wo1ARdOB1X3quLznhNaPsstM6X@dpg-da5jfnuk1f9s738r9sd0-a/chaigallery_db")
 
 if not database_url:
-    raise RuntimeError(" environment variable is not set")
+    raise RuntimeError("DATABASE_URL environment variable is not set")
 
 DATABASES = {
     "default": dj_database_url.parse(
