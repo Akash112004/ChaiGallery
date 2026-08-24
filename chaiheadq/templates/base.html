@@ -256,6 +256,8 @@
 
         .shell-nav {
 
+            position: relative;
+
             max-width: 1180px;
 
             margin: 0 auto;
@@ -559,22 +561,40 @@
 
         .menu-btn {
 
-            display: none;
+            display: inline-flex;
+
+            min-width: 42px;
+
+            padding-left: 0.7rem;
+
+            padding-right: 0.7rem;
 
         }
 
 
-        /* =================================================
-           MOBILE MENU
-        ================================================== */
+          /* =================================================
+              SHARED MENU
+          ================================================== */
 
         .mobile-menu {
 
+            position: absolute;
+
+            top: calc(100% + 0.75rem);
+
+            right: max(1.25rem, calc((100vw - 1180px) / 2 + 1.25rem));
+
+            width: min(320px, calc(100vw - 2rem));
+
             padding: 1rem 1.25rem 1.25rem;
 
-            border-bottom: 1px solid var(--border);
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
 
             background: rgba(13, 13, 13, 0.96);
+
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 
             backdrop-filter: blur(18px);
 
@@ -617,6 +637,8 @@
 
         .mobile-nav-section {
 
+            display: none;
+
             padding-bottom: 0.75rem;
 
         }
@@ -630,7 +652,7 @@
 
             border-top: 1px solid var(--border);
 
-            padding-top: 0.75rem;
+            padding-top: 0;
 
         }
 
@@ -646,6 +668,8 @@
             padding: 0.75rem 0;
 
             margin-bottom: 0.25rem;
+
+            text-decoration: none;
 
         }
 
@@ -698,6 +722,35 @@
         }
 
 
+        .menu-action {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 0.75rem 0;
+
+            text-decoration: none;
+
+            color: var(--text-muted);
+
+            font-size: 0.94rem;
+
+            transition: color 0.2s ease, padding-left 0.2s ease;
+
+        }
+
+
+        .menu-action:hover,
+        .menu-action:focus-visible {
+
+            color: var(--text);
+
+            padding-left: 5px;
+
+        }
+
+
         .mobile-logout {
 
             display: block;
@@ -726,6 +779,13 @@
         .mobile-logout:hover {
 
             color: #dc2626;
+
+        }
+
+
+        .mobile-menu[hidden] {
+
+            display: none;
 
         }
 
@@ -1610,6 +1670,13 @@
             }
 
 
+            .mobile-nav-section {
+
+                display: block;
+
+            }
+
+
             /* Hide desktop action buttons */
 
             .shell-actions .btn-gold {
@@ -1809,141 +1876,6 @@
                 </button>
 
 
-                <!-- Open ChaiGallery -->
-
-                <a
-                    href="{% url 'index' %}"
-                    class="btn btn-gold"
-                >
-
-                    <span>
-                        ☕
-                    </span>
-
-                    <span>
-                        Open ChaiGallery
-                    </span>
-
-                </a>
-
-
-                <!-- =================================================
-                     DESKTOP AUTHENTICATION
-                ================================================== -->
-
-                {% if user.is_authenticated %}
-
-
-                    <!-- Logged in -->
-
-                    <div
-                        class="desktop-auth"
-                        style="
-                            display:flex;
-                            align-items:center;
-                            gap:0.75rem;
-                        "
-                    >
-
-                        <!-- Profile -->
-
-                        <a
-                            href="{% url 'profile' %}"
-                            style="
-                                display:flex;
-                                align-items:center;
-                                gap:0.6rem;
-                                text-decoration:none;
-                            "
-                        >
-
-                            <div
-                                class="mobile-avatar"
-                                style="
-                                    width:36px;
-                                    height:36px;
-                                    font-size:0.85rem;
-                                "
-                            >
-
-                                {{ user.username|first|upper }}
-
-                            </div>
-
-
-                            <span
-                                style="
-                                    color:var(--text);
-                                    font-size:0.88rem;
-                                    font-weight:500;
-                                "
-                            >
-
-                                {{ user.username }}
-
-                            </span>
-
-                        </a>
-
-
-                        <!-- Logout -->
-
-                        <form
-                            method="POST"
-                            action="{% url 'logout' %}"
-                            style="margin:0;"
-                        >
-
-                            {% csrf_token %}
-
-                            <button
-                                type="submit"
-                                class="btn btn-outline"
-                            >
-
-                                ↪ Logout
-
-                            </button>
-
-                        </form>
-
-                    </div>
-
-
-                {% else %}
-
-
-                    <!-- Guest -->
-
-                    <div
-                        class="desktop-auth"
-                        style="
-                            display:flex;
-                            align-items:center;
-                            gap:0.5rem;
-                        "
-                    >
-
-                        <a
-                            href="{% url 'login' %}"
-                            class="btn btn-outline"
-                        >
-                            Login
-                        </a>
-
-                        <a
-                            href="{% url 'register' %}"
-                            class="btn btn-gold"
-                        >
-                            Register
-                        </a>
-
-                    </div>
-
-
-                {% endif %}
-
-
                 <!-- =================================================
                      ONE HAMBURGER ONLY
                 ================================================== -->
@@ -1952,11 +1884,11 @@
                     id="menu-btn"
                     class="btn btn-outline menu-btn"
                     type="button"
-                    aria-label="Toggle menu"
+                    aria-label="Open menu"
                     aria-expanded="false"
                 >
 
-                    ☰
+                    <span id="menu-icon" aria-hidden="true">☰</span>
 
                 </button>
 
@@ -2013,13 +1945,23 @@
 
             <div class="mobile-auth-section">
 
+                <a
+                    href="{% url 'index' %}"
+                    class="menu-action"
+                >
+                    ☕ Open ChaiGallery
+                </a>
+
 
                 {% if user.is_authenticated %}
 
 
                     <!-- User information -->
 
-                    <div class="mobile-user">
+                    <a
+                        href="{% url 'profile' %}"
+                        class="mobile-user"
+                    >
 
                         <div class="mobile-avatar">
 
@@ -2040,13 +1982,6 @@
 
                         </div>
 
-                    </div>
-
-
-                    <!-- Profile -->
-
-                    <a href="{% url 'profile' %}">
-                        👤 Profile
                     </a>
 
 
@@ -2062,7 +1997,7 @@
 
                         <button
                             type="submit"
-                            class="mobile-logout"
+                            class="mobile-logout menu-action"
                         >
 
                             ↪ Logout
@@ -2211,70 +2146,94 @@
             document.getElementById('menu-btn');
 
 
-        if (menuBtn && mobileMenu) {
+        const menuIcon =
+            document.getElementById('menu-icon');
+
+
+        const closeMenu = () => {
+
+            mobileMenu.setAttribute('hidden', '');
+
+            menuBtn.setAttribute('aria-expanded', 'false');
+
+            menuBtn.setAttribute('aria-label', 'Open menu');
+
+            menuIcon.textContent = '☰';
+
+        };
+
+
+        const openMenu = () => {
+
+            mobileMenu.removeAttribute('hidden');
+
+            menuBtn.setAttribute('aria-expanded', 'true');
+
+            menuBtn.setAttribute('aria-label', 'Close menu');
+
+            menuIcon.textContent = '✕';
+
+            const firstMenuItem =
+                mobileMenu.querySelector('a, button');
+
+            if (firstMenuItem) {
+
+                firstMenuItem.focus();
+
+            }
+
+        };
+
+
+        if (menuBtn && mobileMenu && menuIcon) {
 
             menuBtn.addEventListener('click', () => {
 
-                const isHidden =
-                    mobileMenu.hasAttribute('hidden');
+                mobileMenu.hasAttribute('hidden')
+                    ? openMenu()
+                    : closeMenu();
+
+            });
 
 
-                if (isHidden) {
+            mobileMenu
+                .querySelectorAll('a')
+                .forEach(link => {
 
-                    mobileMenu.removeAttribute('hidden');
+                    link.addEventListener('click', closeMenu);
 
-                    menuBtn.textContent = '✕';
+                });
 
-                    menuBtn.setAttribute(
-                        'aria-expanded',
-                        'true'
-                    );
 
-                } else {
+            document.addEventListener('click', event => {
 
-                    mobileMenu.setAttribute(
-                        'hidden',
-                        ''
-                    );
+                if (
+                    !mobileMenu.hasAttribute('hidden') &&
+                    !mobileMenu.contains(event.target) &&
+                    !menuBtn.contains(event.target)
+                ) {
 
-                    menuBtn.textContent = '☰';
-
-                    menuBtn.setAttribute(
-                        'aria-expanded',
-                        'false'
-                    );
+                    closeMenu();
 
                 }
 
             });
 
 
-            /* Close menu after clicking a link */
+            document.addEventListener('keydown', event => {
 
-            mobileMenu
-                .querySelectorAll('a')
-                .forEach(link => {
+                if (
+                    event.key === 'Escape' &&
+                    !mobileMenu.hasAttribute('hidden')
+                ) {
 
-                    link.addEventListener(
-                        'click',
-                        () => {
+                    closeMenu();
 
-                            mobileMenu.setAttribute(
-                                'hidden',
-                                ''
-                            );
+                    menuBtn.focus();
 
-                            menuBtn.textContent = '☰';
+                }
 
-                            menuBtn.setAttribute(
-                                'aria-expanded',
-                                'false'
-                            );
-
-                        }
-                    );
-
-                });
+            });
 
         }
 
