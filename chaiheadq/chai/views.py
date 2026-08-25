@@ -142,11 +142,8 @@ def upload(request):
 
 def edit_tea(request, tea_id):
 
-    tea = get_object_or_404(
-        Tea,
-        pk=tea_id,
-        user=request.user
-    )
+    teas = Tea.objects.all() if request.user.is_superuser else Tea.objects.filter(user=request.user)
+    tea = get_object_or_404(teas, pk=tea_id)
 
     if request.method == 'POST':
 
@@ -159,7 +156,6 @@ def edit_tea(request, tea_id):
         if form.is_valid():
             try:
                 tea = form.save(commit=False)
-                tea.user = request.user
                 tea.save()
             except Exception:
                 logger.exception("Tea update failed for tea_id=%s", tea.id)
@@ -192,11 +188,8 @@ def edit_tea(request, tea_id):
 
 def tea_delete(request, tea_id):
 
-    tea = get_object_or_404(
-        Tea,
-        pk=tea_id,
-        user=request.user
-    )
+    teas = Tea.objects.all() if request.user.is_superuser else Tea.objects.filter(user=request.user)
+    tea = get_object_or_404(teas, pk=tea_id)
 
     if request.method == 'POST':
 

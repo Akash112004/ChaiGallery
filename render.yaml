@@ -12,6 +12,7 @@ services:
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
       python manage.py migrate
+      python manage.py create_admin
     startCommand: gunicorn chaiheadq.wsgi:application --chdir chaiheadq
     envVars:
       - key: DEBUG
@@ -32,3 +33,9 @@ services:
         value: chaigallery.onrender.com
       - key: CSRF_TRUSTED_ORIGINS
         value: https://chaigallery.onrender.com
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
