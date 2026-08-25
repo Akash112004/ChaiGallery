@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):
-    help = "Create the deployment superuser from environment variables."
+    help = "Create or update the deployment superuser."
 
     def handle(self, *args, **options):
         username = os.getenv("DJANGO_SUPERUSER_USERNAME")
@@ -21,24 +21,41 @@ class Command(BaseCommand):
             )
             if not value
         ]
+
         if missing:
             raise CommandError(
-                "Missing required environment variable(s): " + ", ".join(missing)
+                "Missing required environment variable(s): "
+                + ", ".join(missing)
             )
 
-        if User.objects.filter(username=username).exists():
+        user, created = User.objects.get_or_create(
+            username=username,
+            defaults={
+                "email": email,
+                "is_staff": True,
+                "is_superuser": True,
+            },
+        )
+
+        # Make sure the account has the required permissions.
+        user.email = email
+        user.is_staff = True
+        user.is_superuser = True
+
+        # Set/update the password.
+        user.set_password(password)
+        user.save()
+
+        if created:
             self.stdout.write(
-                self.style.WARNING(
-                    f"Superuser '{username}' already exists; no duplicate was created."
+                self.style.SUCCESS(
+                    f"Superuser '{username}' created successfully."
                 )
             )
-            return
-
-        User.objects.create_superuser(
-            username=username,
-            email=email,
-            password=password,
-        )
-        self.stdout.write(
-            self.style.SUCCESS(f"Superuser '{username}' created successfully.")
-        )
+        else:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"Superuser '{username}' already existed; "
+                    "password and permissions were updated."
+                )
+            )
