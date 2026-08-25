@@ -1,6 +1,7 @@
 # # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 class Tea(models.Model):
     CATEGORY_CHOICES = [
@@ -26,7 +27,8 @@ class Tea(models.Model):
 
     description = models.TextField(blank=True)
 
-    image = models.ImageField(upload_to='tea_images/')
+    image = CloudinaryField('image')
+
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
