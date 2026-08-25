@@ -159,6 +159,7 @@ if not DEBUG and not cloudinary_enabled:
     )
 
 default_storage_backend = 'django.core.files.storage.FileSystemStorage'
+
 if cloudinary_enabled:
     default_storage_backend = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
