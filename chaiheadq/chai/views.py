@@ -3,8 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import logging
 from .forms import TeaForm
 from .models import Tea
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -97,12 +100,26 @@ def upload(request):
 
         if form.is_valid():
 
-            tea = form.save(commit=False)
+            try:
+                tea = form.save(commit=False)
 
-            # The uploader becomes the owner
-            tea.user = request.user
+                # The uploader becomes the owner
+                tea.user = request.user
 
-            tea.save()
+                tea.save()
+            except Exception:
+                logger.exception("Tea upload failed for user_id=%s", request.user.id)
+                messages.error(
+                    request,
+                    "Upload failed. Please check Cloudinary settings and try again."
+                )
+                return render(
+                    request,
+                    "upload.html",
+                    {
+                        "form": form,
+                    }
+                )
 
             messages.success(
                 request,
@@ -140,12 +157,21 @@ def edit_tea(request, tea_id):
         )
 
         if form.is_valid():
-
-            tea = form.save(commit=False)
-
-            tea.user = request.user
-
-            tea.save()
+            try:
+                tea = form.save(commit=False)
+                tea.user = request.user
+                tea.save()
+            except Exception:
+                logger.exception("Tea update failed for tea_id=%s", tea.id)
+                messages.error(
+                    request,
+                    "Update failed. Please check Cloudinary settings and try again."
+                )
+                return render(request, 'upload.html', {
+                    'form': form,
+                    'teas': Tea.objects.all(),
+                    'tea': tea
+                })
 
             return redirect('gallery')
 

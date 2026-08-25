@@ -198,11 +198,18 @@ ChaiGallery | Discover the World of Chai
                 <!-- Image -->
 
                 <div class="aspect-[4/5] overflow-hidden">
-
+                    {% if tea.image %}
                     <img
                         src="{{ tea.image.url }}"
                         alt="{{ tea.name }}"
+                        onerror="this.onerror=null;this.src='{% static 'images/hibiscus_tea.jpg' %}';"
                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    {% else %}
+                    <img
+                        src="{% static 'images/hibiscus_tea.jpg' %}"
+                        alt="Tea placeholder"
+                        class="w-full h-full object-cover">
+                    {% endif %}
 
                 </div>
 

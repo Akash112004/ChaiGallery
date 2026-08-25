@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Categories | ChaiGallery{% endblock %}
 
@@ -113,6 +114,7 @@
                             <img
                                 src="{{ tea.image.url }}"
                                 alt="{{ tea.name }}"
+                                onerror="this.onerror=null;this.src='{% static 'images/hibiscus_tea.jpg' %}';"
                                 class="w-14 h-14 rounded-xl
                                        object-cover">
 

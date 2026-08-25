@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}ChaiGallery | Explore Chai{% endblock %}
 
 {% block content %}
+
+{% static "images/hibiscus_tea.jpg" as hibiscus_fallback %}
 
 <!-- Gallery Header -->
 <section class="bg-gray-950 text-white">
@@ -117,6 +120,7 @@
                     <img
                         src="{{ tea.image.url }}"
                         alt="{{ tea.name }}"
+                        onerror="this.onerror=null;this.src='{{ hibiscus_fallback }}';"
                         class="w-full h-full
                                object-cover
                                group-hover:scale-105
