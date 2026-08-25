@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
+import cloudinary
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -144,15 +145,23 @@ USE_TZ = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 # Cloudinary Configuration Credentials
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
+import cloudinary
 
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME", "").strip(),
+    api_key=os.getenv("CLOUDINARY_API_KEY", "").strip(),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET", "").strip(),
+    secure=True,
+)
+
+print("CLOUDINARY SDK CLOUD NAME:", repr(cloudinary.config().cloud_name))
 # Storage backend for uploaded media.
 # Use Cloudinary only when all credentials are present; otherwise keep files local.
-cloudinary_enabled = all(CLOUDINARY_STORAGE.values())
+cloudinary_enabled = all([
+    cloudinary.config().cloud_name,
+    cloudinary.config().api_key,
+    cloudinary.config().api_secret
+])
 if not DEBUG and not cloudinary_enabled:
     raise RuntimeError(
         'Cloudinary credentials are required when DEBUG is False.'
