@@ -1,0 +1,34 @@
+services:
+  - type: pserv
+    name: chaigallery-db
+    env: postgresql
+    plan: free
+
+  - type: web
+    name: chaigallery
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn chaiheadq.wsgi:application --chdir chaiheadq
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chaigallery-db
+          property: connectionString
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: ALLOWED_HOSTS
+        value: chaigallery.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://chaigallery.onrender.com

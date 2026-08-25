@@ -150,11 +150,22 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# Storage backends (Django 5.2+). Uploaded media is persisted in Cloudinary;
-# static files continue to be served by WhiteNoise.
+# Storage backend for uploaded media.
+# Use Cloudinary only when all credentials are present; otherwise keep files local.
+cloudinary_enabled = all(CLOUDINARY_STORAGE.values())
+if not DEBUG and not cloudinary_enabled:
+    raise RuntimeError(
+        'Cloudinary credentials are required when DEBUG is False.'
+    )
+
+default_storage_backend = 'django.core.files.storage.FileSystemStorage'
+if cloudinary_enabled:
+    default_storage_backend = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Storage backends (Django 5.2+). Static files are served by WhiteNoise.
 STORAGES = {
     'default': {
-        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        'BACKEND': default_storage_backend,
     },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
