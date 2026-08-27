@@ -72,28 +72,14 @@
                     md:items-center md:justify-between
                     gap-6 mb-10">
 
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                <!-- Back Button to Index Page -->
-                <a href="{% url 'index' %}" 
-                   class="inline-flex items-center justify-center 
-                          w-10 h-10 rounded-xl 
-                          bg-gray-900 border border-gray-800 
-                          text-gray-400 hover:text-white hover:bg-gray-800 
-                          transition group" 
-                   title="Back to Home">
-                    <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                </a>
+            <div>
+                <h2 class="text-3xl font-bold text-white">
+                    Latest Tea Uploads
+                </h2>
 
-                <div>
-                    <h2 class="text-3xl font-bold text-white">
-                        Latest Tea Uploads
-                    </h2>
-                    <p class="mt-1 text-gray-400 text-sm">
-                        Freshly shared by the ChaiGallery community.
-                    </p>
-                </div>
+                <p class="mt-2 text-gray-400">
+                    Freshly shared by the ChaiGallery community.
+                </p>
             </div>
 
             <a href="{% url 'upload' %}"
@@ -308,21 +294,28 @@
 
             </p>
 
-            <div class="mt-6 flex items-center justify-center gap-4">
-                <!-- Back Home button inside Empty State -->
-                <a href="{% url 'index' %}"
-                   class="inline-flex items-center justify-center
-                          px-6 py-3 rounded-2xl
-                          bg-gray-800 text-gray-300
-                          font-semibold border border-gray-700
-                          hover:bg-gray-700 hover:text-white
-                          transition">
-                    Back to Home
-                </a>
+            <a
+                href="{% url 'upload' %}"
+                class="mt-7
+                       inline-flex
+                       px-6 py-3
+                       rounded-2xl
+                       bg-chai-600
+                       text-white
+                       font-semibold
+                       hover:bg-chai-700
+                       transition">
 
-                <a href="{% url 'upload' %}"
-                   class="inline-flex items-center justify-center
-                          px-6 py-3 rounded-2xl
-                          bg-chai-600 text-white
-                          font-semibold
-                          hover:bg-chai-700
+                Upload Your First Tea
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}
